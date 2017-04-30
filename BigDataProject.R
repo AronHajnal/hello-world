@@ -108,6 +108,3 @@ summary(reg)
 
 plot(kozbesz$logertek,reg$residuals)
 
-library(leaps)
-
-regfit.full=regsubsets(logertek~targy+tipus+fajta+ajanlatok+ajanlattipus+tevkor, data=kozbesz,nvmax=3, really.big = T)
