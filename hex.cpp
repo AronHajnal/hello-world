@@ -42,11 +42,26 @@ class Graph{
     Value getval(int i, int j){
         return board[i][j];
         }
+    
     std::vector<int> neighbours(int i){
-        if(i%M>1 && i > M && i < M*(M-1)){
+        /*if( ( (i%M) >1 ) && (i > M) && ( i < ( M*(M-1) ) ) ){
             return std::vector<int> {i-1, i+1, i+M, i-M, i+M+1, i-M-1};
         }
-        return std::vector<int> {};
+        return std::vector<int> {};*/
+        std::vector<int> out;
+        int x = i/M;
+        int y = i%M;
+        if(x<M-1){out.push_back((x+1)*M+y);}
+        if(y<M-1){out.push_back(x*M+y+1);}
+        if(x>0){out.push_back((x-1)*M+y);}
+        if(y>0){out.push_back(x*M+y-1);}
+        if(x<M-1 && y>0){
+            //cout << (x+1)*M+y-1 << endl;
+            out.push_back((x+1)*M+y-1);}
+        if(x>0 && y<M-1){
+            //cout << (x-1)*M+y+1 << endl;
+            out.push_back((x-1)*M+y+1);}
+        return out;
         }
     std::vector<int> vneighbours(int i, Value v){
         std::vector<int> out;
@@ -68,6 +83,10 @@ class Graph{
             return true;
             }
             
+        if(board[s/M][s%M] != v){
+            return false;
+            }
+            
         std::vector<bool> visited(M*M, false);
        
         std::list<int> queue;
@@ -83,6 +102,7 @@ class Graph{
             //cout << s << endl;
             for (int i : adj){
                 if (i == d){
+                    cout << "connected!!!!!!!!!!!!" << endl;
                     return true;
                     }
                 if (!visited[i]){
@@ -93,6 +113,11 @@ class Graph{
             }
         return false;
         }
+        
+    bool who_won(Value v){
+        
+        }
+    
     void draw(bool x, const char a, const char b){
     x ? printf("%c",a) : printf("%c",b);
     }
@@ -112,6 +137,7 @@ void drawline(std::vector<Value> row, bool x){
         }
     }
     
+    
 void drawboard(){
     for (int i = 0; i<N; i++){
         for (int j = 0; j<i; j++){
@@ -130,6 +156,11 @@ int main(){
     g.setval(4,5, red);
     g.setval(5,5, red);
     g.drawboard();
-    cout << g.is_connected(28,34, red);
+    cout << g.is_connected(22,34, red);
+    /*g.setval(0,5,red);
+    g.drawboard();
+    cout << g.neighbours(5) << endl;
+    cout << g.neighbours(7)  << endl;
+    cout << g.neighbours(35)  << endl;*/
     return 0;
 }
