@@ -31,23 +31,35 @@ class Graph{
     private:
     
     std::vector<vector<Value>> board;
+    Value turn;
     
     public:
     
-    Graph(): board(M, vector<Value>(M, empty)){}
+    Graph(Value starter): board(M, vector<Value>(M, empty)), turn(starter){}
     
-    void setval(int i, int j, Value v){
-        board[i][j] = v;
+    bool setval(int i, int j, Value v){
+        if(board[i][j] == empty){
+            board[i][j] = v;
+            return true;
+            }
+        return false;
         }
     Value getval(int i, int j){
         return board[i][j];
         }
+    Value set_turn(){
+        if(turn == red){
+            turn = blue;
+            return blue;
+            }
+        if(turn == blue){
+            turn = red;
+            return red;
+            }
+        return empty;
+        }
     
     std::vector<int> neighbours(int i){
-        /*if( ( (i%M) >1 ) && (i > M) && ( i < ( M*(M-1) ) ) ){
-            return std::vector<int> {i-1, i+1, i+M, i-M, i+M+1, i-M-1};
-        }
-        return std::vector<int> {};*/
         std::vector<int> out;
         int x = i/M;
         int y = i%M;
@@ -56,10 +68,8 @@ class Graph{
         if(x>0){out.push_back((x-1)*M+y);}
         if(y>0){out.push_back(x*M+y-1);}
         if(x<M-1 && y>0){
-            //cout << (x+1)*M+y-1 << endl;
             out.push_back((x+1)*M+y-1);}
         if(x>0 && y<M-1){
-            //cout << (x-1)*M+y+1 << endl;
             out.push_back((x-1)*M+y+1);}
         return out;
         }
@@ -67,11 +77,7 @@ class Graph{
         std::vector<int> out;
         std::vector<int> n = this->neighbours(i);
         for(int i : n){
-            cout << i << endl;
-            cout << i/M << endl;
-            cout << i%M << endl;
             if(board.at(i/M).at(i%M) == v){
-                cout << "!!" << endl;
                 out.push_back(i);
                 }
             }
@@ -114,8 +120,28 @@ class Graph{
         return false;
         }
         
-    bool who_won(Value v){
-        
+    Value who_won(Value v){
+        if(v == red){
+            for(int i=0;i<M*M;i=i+M){
+                for(int j=M-1;j<M*M;j=j+M){
+                    if(is_connected(i,j,v)){
+                        cout << "red won !!!";
+                        return red;
+                        }
+                    }
+                }
+            }
+        if(v == blue){
+            for(int i=0;i<M;i++){
+                for(int j=M*(M-1);j<M*M;j++){
+                    if(is_connected(i,j,v)){
+                        cout << "blue won !!!";
+                        return blue;
+                        }
+                    }
+                }
+            }
+        return empty;
         }
     
     void draw(bool x, const char a, const char b){
@@ -148,15 +174,56 @@ void drawboard(){
     }
     }
     };
+    
+Value do_turn(Graph hex){
+    Value turn = hex.set_turn();
+    int move_x;
+    int move_y;
+    do{
+        std::cout << "Please enter your x move: ";
+        std::cin >> move_x;
+        std::cout << "Please enter your y move: ";
+        std::cin >> move_y;
+        } while(hex.setval(move_x,move_y,turn));
+    return hex.who_won(turn);
+    }
+    
+void play(){
+    std::cout << "Welcome to HEX! Choose your color: ";
+    std::string color;
+    std::cin >> color;
+    Value start;
+    if (color == "red"){
+        start = red;
+        }
+    if(color == "blue"){
+        start = blue;
+        }
+    Graph game(start);
+    Value winner;
+    do{
+        winner = do_turn(game);
+        } while(winner == empty);
+    if(winner == red){
+        std::cout << "Red won";
+        }
+    if(winner == blue){
+        std::cout << "Blue won";
+        }
+    }
 
 int main(){
-    Graph g;
-    g.setval(3,4, red);
-    g.setval(3,5, red);
-    g.setval(4,5, red);
-    g.setval(5,5, red);
+    Graph g(red);
+    g.setval(3,4, blue);
+    g.setval(3,5, blue);
+    g.setval(4,5, blue);
+    g.setval(5,5, blue);
+    g.setval(2,5, blue);
+    g.setval(1,5, blue);
+    g.setval(0,5, blue);
     g.drawboard();
-    cout << g.is_connected(22,34, red);
+    g.is_connected(22,35, red);
+    g.who_won(blue);
     /*g.setval(0,5,red);
     g.drawboard();
     cout << g.neighbours(5) << endl;
