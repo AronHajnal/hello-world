@@ -1,0 +1,218 @@
+\documentclass{article}
+
+\title{Financial Economics: Assignment 1}
+\date{2017-02-11}
+\author{Aron Hajnal}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{pgfplots}
+\usepackage{booktabs}
+\pgfplotsset{compat=1.12}
+\usepackage{wasysym}
+
+\begin{document} 
+
+\maketitle
+
+\section{Question 1.}
+
+\subsection{(a)}
+
+Let us denote the payoff matrix by $D$ the probability vector by $p$, state price vector by $q$ and asset price vector by $S$ and the SDF by $m$. We can obtain the assets prices by replicating the asset using Arrow-Debreu securities:
+
+\begin{equation}
+S=Dq
+\end{equation}
+
+Now we can invert this relationship:
+
+\begin{equation}
+q = D^{-1} S
+\end{equation}
+
+\subsection{(b)}
+
+The payoff matrix is full rank i.e. invertible. This means that the payoffs of the four assets are linearly independent so any asset can be replicated, thus the market is complete. Therefore, using the fact that in complete markets the state price vector is unique we conclude that there is only one state price vector.
+
+\section{(c)}
+
+We can calculate the price of any asset by replicating it with Arrow-Debreu securities:
+
+\subsection{(d)}
+
+We do not need the probability of states because we can perfectly hedge the call option.
+
+\subsection{(e)}
+
+We can calculate SDF from the definition:
+
+\begin{equation}
+m_i = \frac{q_i}{p_i}
+\end{equation}
+
+\subsection{(f)}
+
+We can calculate these using the definitions.
+
+\subsection{(g)}
+
+The portfolios on the efficient frontier have the highest Sharpe ratio of any portfolios. The SDF does not have the highest Sharpe ratio so it cannot be on the efficient frontier.
+
+\section{Question 2.}
+
+\subsection{(a)}
+
+CARA utility with normally distributed income implies mean variance preferences:
+\begin{equation}
+u(x) = \mathrm{E}(x) - \gamma \mathrm{Var}(x)
+\end{equation}
+
+This leads to the following problem, if we invest an amount $x$ into the risky asset and $y$ into the riskless asset using general parameters $\mu$ and $\sigma^2$ (not the same parameters as in the problem):
+
+\begin{align}
+\max \mu x- \gamma \sigma^2 x^2 + Ry \\
+s.t. \\
+px+y \leq m
+\end{align}
+
+The FOC are
+
+\begin{align}
+\mu - 2 \gamma \sigma^2 = \lambda \\
+ R = \lambda
+\end{align}
+
+Solving these gives us the following demand for the risky asset:
+
+\begin{equation}
+x = \frac{\mu-pR}{2\gamma \sigma^2}
+\end{equation}
+
+The equilibrium is given at the values of $x$ such that the demand by informed and uninformed traders is equal to the supply provided by the noise traders.
+
+\begin{equation}
+\lambda x(p,\theta) + (1- \lambda) x(p) = n
+\end{equation}
+
+This yields a solution for $p$ which is linear in $\theta$ and $n$:
+\begin{equation}
+p=\frac{\rho(\alpha(\lambda \theta + (1-\lambda \mu)) + \theta \lambda \rho)-n \gamma (\alpha+ \rho)}{R \rho (\alpha+\lambda \rho)}
+\end{equation}
+
+
+\subsection{(b)}
+
+We can use the projection theorem to find the conditional expectation and the conditional variance of the uninformed trader given the price. The informed trader does not need to update their beliefs about the expectation or variance of the payoff as they know $\theta$ and no information about $\epsilon$ is contained in the price.
+
+The posterior expectation is:
+
+The posterior variance of the uninformed traders is:
+
+\begin{equation}
+\mathrm{Var}(\theta \vert p) = \frac{1}{\rho} + \frac{1}{\alpha+\frac{\beta \lambda^2 \rho^2}{\gamma^2}}
+\end{equation}
+
+\subsection{(c)}
+
+Their original estimate of the variance was $\frac{1}{\rho}+\frac{1}{\alpha}$. Clearly the extra term $\frac{\beta \lambda^2 \beta^2}{\gamma^2}$  makes the posterior variance smaller then the original which is intuitive as they obtain additional information about the parameter so their uncertainty decreases. The extra term (which itself makes the posterior smaller for higher values) increases in the precision of the random supply $n$ as $n$ is a form of noise that makes the signal extraction problem harder as it is unrelated to $\theta$. The posterior also decreases in the fraction of informed traders which makes sense as informed traders drive the price closer to the fundamental value. There is also an extra effect of the variance of $\epsilon$. Similarly to the effect of $\beta$ this a form of noise that hides the true value of $\theta$. The posterior is increasing in the coefficient of risk aversion. This is because a higher $\gamma$ decreases the demand for the risky asset and thus the information that is revealed by the informed agents by buying the asset.
+
+\section{Question 3.}
+
+\subsection{(a)}
+
+First consider the strategies of the informed trader: It is common knowledge that the price is the market makers conditional expectation of $V$ given the order flow. This implies that $p$ will be between $V^+$ and $V^-$. Thus the informed trader will buy if the asset has high value and sell if it has low value and thus always obtain a nonnegative payoff. Then we can consider the prices set given order flows. There are 5 possible order flows as there are 2 traders, the noise trader and the speculator and they can all have order flow be -1, 0 or 1, thus total order flow, $T = -2,1,0,1,2$. Now calculate $\mathrm{E}(V \vert T)$:
+
+\begin{equation}
+\mathrm{E}(V \vert T) = \lambda \mathrm{E}(V \vert T, I) + (1-\lambda) \mathrm{E}(V \vert T, U) = \lambda \mathrm{E}(V \vert T, I) + (1-\lambda) \mathrm{E}(V)
+\end{equation}
+
+where the last equality follows from the fact that the uniformed traders actions are independent of the value of $V$. Thus, given we know the trader is uninformed we do not condition on their order flow. Also, the fact that the trader is uninformed is unrelated to the realization of $V$ so we can disregard that as well. Now we can calculate specific values.
+
+For example, for $T=2$, we know that both traders bought and that the informed trader will only trade if $V$ is high:
+
+\begin{equation}
+\mathrm{E}(V \vert T=2) = \lambda V^+ + (1-\lambda)\bar{V}
+\end{equation}
+
+Where $\bar{V} = \mathrm{E}(V)$. We know that the informed trader always buys or sells. Thus for $T=1$ if the speculator is informed we know that the noise trader did not trade implying that the market makers posterior is the same as for $T=2$. Similar reasoning suggests that:
+
+\begin{equation}
+\mathrm{E}(V \vert T=-2) = \mathrm{E}(V \vert T=-1) = \lambda V^- + (1-\lambda)\bar{V}
+\end{equation}
+
+If the trader is informed there are two ways the order flow can be zero: informed trader buys and noise trader sells or vice versa. The informed trader buys with $\alpha$ probability and noise traders decision is independent of this. Thus the first way has probability $\alpha$ and the second $1-\alpha$ respectively:
+
+\begin{equation}
+\mathrm{E}(V \vert T=0) = \bar{V}
+\end{equation}
+
+Now we consider the strategies of the uninformed trader:
+
+The agents expected profit is $\mathrm{E}(V) - \mathrm{E}(p \vert T, U)$ i.e. the difference between the unconditional expectation of $V$ minus the conditional expectation of $p$ given the knowledge of the agents own type and the orders that she submitted. Clearly neither always buying nor always selling is profitable as, for example, if the agent buys the order flow will be either 0,1 or 2. Inspecting the price set for these order flows it is clear that the uninformed agent would obtain a negative expected profit. Intuitively, the market maker is not sure if the trader is informed or not so it sets the price above $\bar{V}$ if it observes a positive order flow. The same reasoning applies to selling.
+
+More surprisingly not trading cannot be part of a BNE either for the uninformed agent. This is because not trading leads to a zero profit so it is only a best response if trading also leads to zero expected profit i.e. $p=\bar{V}$. Not trading leads to possible order flows of -1, 0 or 1 each with equal probability. Calculating the expected price in this case we find that it is in general not equal to $\bar{V}$.
+
+Thus no pure strategy can be part of a BNE for the uninformed agent. Now,consider a mixed strategy of playing either buy or sell randomly. This will only be a best response if the agent is indifferent between buying and selling which can only happen if $p = \bar{V}$ as in this case both buying or selling lead to zero expected profit. Thus we want to find $p$ such that the expected price given the order flow is $\bar{V}$. 
+
+
+Solving this we find that $p=\alpha$. Intuitively, as the uninformed agent has no knowledge of $V$ the best she can do is to obtain zero expected profit buy mimicking the behavior of the informed trader.
+
+\subsection{(b)}
+
+The uninformed trader makes 0 expected profit. We can calculate the expected profit for the informed trader coming from its information rent. This is the expected difference between the value and the price set.
+
+After simplification we obtain:
+
+\begin{equation}
+\mathrm{E}(\vert V - p \vert) = \bigg(1-\frac{2}{3}\lambda\bigg)(\alpha(1-\alpha)(V^+-V^-))
+\end{equation}
+
+The intuition is the following: Clearly the profit is proportional to the difference between the high and low values as the trader can profit from both high and low values. The profit is maximized at $\alpha = 0.5$ and decreases as the uncertainty decreases. This means the traders information has higher value if $V$ is more uncertain as the market maker cannot guess the value of V as well as its priors are more evenly distributed. The profit is decreasing in $\lambda$ which again makes sense: if the trader is informed with a high probability the market maker will set prices farther away from $\bar{V}$ and closer to its realized value which means it will decrease expected profits.
+
+\subsection{(c)}
+
+Clearly, for the cost to maintain a $\lambda$ strictly between 0 and 1 it has to be equal to the expected profit of the informed trader, so both traders earn zero profit on average. The expected profit of the informed trader is a function of $\lambda$ so $c$ will be a function of $\lambda$. Inverting this function, we obtain the $\lambda$ that will make expected profit for the informed trader equal to a given cost.
+
+\section{(Question 4.)}
+
+\subsection{(a)}
+
+In equilibrium prices should be equal to the marginal utility. Here, utility is linear so  price is just equal to utility from a unit of an asset. Utility is discounted expected cash flow. I assume that fair price means the price of the asset if an agent could hold the asset forever. Thus:
+
+\begin{equation}
+\int_0^\infty r \exp(-rt) dt = 1
+\end{equation}
+
+The expected NPV of any asset is the following:
+
+\begin{equation}
+\mathrm{E}(NPV) = -p_A + \mathrm{E}(CF(t) + \exp(-rt)p_B)
+\end{equation}
+
+where CF is the cash flow, $p_A$ and $p_B$ are ask and bid price and $t$ is an exponentially distributed random variable.
+
+We can calculate this value by performing the necessary integrals.
+
+\begin{equation}
+E(\exp(-rt))=\int_0^\infty \mu \exp(-\mu t)\exp(-rt) dt =\frac{\mu}{r+\mu}
+\end{equation}
+
+\begin{equation}
+E(CF(t))= \int_0^\infty \mu \exp(-\mu t) \int_0^t v \exp(-rs) ds dt = \frac{v}{r+\mu}
+\end{equation}
+
+The solution is:
+
+\begin{equation}
+\frac{v+\mu p_B}{r+\mu}-p_A
+\end{equation}
+
+This value is a constant, thus at any point in time the agents in the model face the same utility maximization problem with the same constraint and a constant supply. This implies that equilibrium prices will not change with time. This is a consequence of the memorylessness property of the exponential distribution and that exponential discounting implies time consistent behavior.
+
+\subsection{(b)}
+
+Intuitively it is clear that agents with higher values of $\mu$ will prefer the low trading cost security more as they will pay the bid ask spread sooner in expectation. On the other hand agents with zero $\mu$ will be indifferent to the the two assets if their price is the same. Thus we expect that prices will adjust such that the price of the high asset will be lower to make it profitable for low $\mu$ investors to buy.
+
+\end{document}
