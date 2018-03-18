@@ -1,3 +1,4 @@
+#include "stdafx.h" 
 #include <iostream> 
 #include <vector>
 #include <list>
@@ -23,21 +24,21 @@ const int M = (N + 1) / 2;
 
 enum Value { empty, red, blue };
 
-struct Pos{
-int x;
-int y;
-Value v = empty;
-int n = x*M+y;
+struct Pos {
+	int x;
+	int y;
+	Value v = Value::empty;
+	int n = x*M + y;
 };
 
-bool operator==(const Pos& p, const Pos& q){
-    return p.n == q.n && p.v == q.v;
-    }
-bool operator>(const Pos& p, const Pos& q){
-    return p.n > q.n;
+bool operator==(const Pos& p, const Pos& q) {
+	return p.n == q.n && p.v == q.v;
 }
-bool operator<(const Pos& p, const Pos& q){
-    return p.n < q.n;
+bool operator>(const Pos& p, const Pos& q) {
+	return p.n > q.n;
+}
+bool operator<(const Pos& p, const Pos& q) {
+	return p.n < q.n;
 }
 
 
@@ -53,11 +54,11 @@ public:
 	Graph(Value starter) : board(M, vector<Value>(M, Value::empty)), turn(starter) {}
 
 	bool setval(const Pos p) {
-		if (board[p.x][p.y] == Value::empty) {
+		if (board[p.x][p.y] == Value::empty && p.x < M && p.y < M) {
 			board[p.x][p.y] = p.v;
 			return true;
 		}
-		std::cout << "Please enter a valid value";
+		std::cout << "Please enter a valid value \n";
 		return false;
 	}
 	const Value getval(const Pos p) {
@@ -77,32 +78,33 @@ public:
 
 	const std::set<Pos> neighbours(const Pos p) {
 		std::set<Pos> out;
-		if (p.x<M - 1) {
-		    Pos temp{ p.x+1, p.y };
-		    out.insert(temp); 
-		    }
-		if (p.y<M - 1) {
-		    Pos temp{p.x,p.y+1};
-		    out.insert(temp);
-		    }
+		if (p.x<(M - 1)) {
+			Pos temp{ p.x + 1, p.y , board[p.x + 1][p.y] };
+			out.insert(temp);
+		}
+		if (p.y<(M - 1)) {
+			Pos temp{ p.x,p.y + 1, board[p.x][p.y + 1] };
+			out.insert(temp);
+		}
 		if (p.x>0) {
-		    Pos temp{p.x-1,p.y};
-		    out.insert(temp);
+			Pos temp{ p.x - 1,p.y, board[p.x - 1][p.y] };
+			out.insert(temp);
 		}
 		if (p.y>0) {
-		    Pos temp{p.x,p.y-1};
-		    out.insert(temp);
+			Pos temp{ p.x,p.y - 1, board[p.x][p.y - 1] };
+			out.insert(temp);
 		}
-		if (p.x<M - 1 && p.y>0) {
-		    Pos temp{p.x+1,p.y-1};
-		    out.insert(temp);
-		    }
-		if (p.x>0 && p.y<M - 1) {
-		    Pos temp{p.x-1,p.y+1};
-		    out.insert(temp);
+		if (p.x<(M - 1) && (p.y>0)) {
+			Pos temp{ p.x + 1,p.y - 1, board[p.x + 1][p.y - 1] };
+			out.insert(temp);
+		}
+		if ((p.x>0) && p.y<(M - 1)) {
+			Pos temp{ p.x - 1,p.y + 1, board[p.x - 1][p.y + 1] };
+			out.insert(temp);
 		}
 		return out;
 	}
+
 	const std::set<Pos> vneighbours(const Pos p) {
 		std::set<Pos> out;
 		std::set<Pos> n = this->neighbours(p);
@@ -136,9 +138,9 @@ public:
 
 			std::set<Pos> adj = this->vneighbours(s);
 			for (Pos i : adj) {
-			    cout << i.n << endl;
+				
 				if (i == d) {
-					cout << "connected!!!!!!!!!!!!" << endl;
+					
 					return true;
 				}
 				if (!visited[i.n]) {
@@ -151,25 +153,25 @@ public:
 	}
 
 	Value who_won(Value v) {
-		
+
 		for (int i = 0; i<M; i++) {
 			for (int j = 0; j<M; j++) {
-			    if (v == red) {
-					if (is_connected(Pos{i,0,v}, Pos{j,M-1,v})) {
+				if (v == red) {
+					if (is_connected(Pos{ i,0,v }, Pos{ j,M - 1,v })) {
 						cout << "red won !!!";
 						return red;
-					    }
-				    }
+					}
+				}
 				if (v == blue) {
-					if (is_connected(Pos{0,i,v}, Pos{M-1,j,v})) {
+					if (is_connected(Pos{ 0,i,v }, Pos{ M - 1,j,v })) {
 						cout << "blue won !!!";
 						return blue;
-					    }
-			        }
-			    }
-		    }
+					}
+				}
+			}
+		}
 		return Value::empty;
-	    }
+	}
 
 	void draw(bool x, const char a, const char b) {
 		x ? printf("%c", a) : printf("%c", b);
@@ -203,9 +205,9 @@ public:
 };
 
 /*class Enemy{
-    private:
-    
-    };*/
+private:
+
+};*/
 
 Value do_turn(Graph& hex) {
 	hex.drawboard();
@@ -219,12 +221,12 @@ Value do_turn(Graph& hex) {
 		std::cin >> move_x;
 		std::cout << "Please enter your y move: ";
 		std::cin >> move_y;
-	} while (!hex.setval(Pos{move_x, move_y, turn}));
+	} while (!hex.setval(Pos{ move_x, move_y, turn }));
 	return hex.who_won(turn);
 }
 
 void play() {
-	std::cout << "Welcome to HEX! Choose your color: ";
+	std::cout << "Welcome to HEX! Choose your color (red or blue): ";
 	std::string color;
 	std::cin >> color;
 	Value start;
@@ -248,16 +250,7 @@ void play() {
 }
 
 int main() {
-	/*play();
-	std::getchar();*/
-	Graph g(red);
-	g.setval(Pos{0,0,red});
-	g.setval(Pos{0,1,red});
-	g.setval(Pos{0,2,red});
-	g.setval(Pos{0,3,red});
-	g.setval(Pos{0,4,red});
-	g.setval(Pos{0,5,red});
-	cout << g.who_won(red) << endl;
-	g.drawboard();
+	play();
+	std::getchar();
 	return 0;
 }
