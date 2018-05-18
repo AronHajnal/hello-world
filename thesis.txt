@@ -18,6 +18,21 @@ The CS model is a general and widely used model of cheap talk, i.e. costless com
 The CS model has been very influential in information economics and there have been several extensions the most relevant of which is the Kartik model. Kartik extends the CS model in two directions: They introduce credulous agents and costly lying. There framework is very general and they present the properties of the resulting equilibria in an abstract setting. The motivating examples they provide for the analysis are stock recommendations, advertising and grade inflation.  They do not mention politics as a possible field of application.
 There are other directions in which the CS model has been extended. For example, Chakraborty presents a model with multidimensional state space and state independent preferences for the sender. They show that in this case, it is possible to transmit information even is the bias of the sender is large, a result which does not hold in one dimension. Their intuition is that the expert can send comparative messages about the state i.e. saying that in dimension one the state is higher than in dimension two which in equilibrium increases the welfare of the receiver.
 Similarly to how this paper uses the insights of Kartik to better understand campaign messages, Schankenberg applies Chakraborty to politics. In particular, he argues that political communication reveals directional information about the multidimensional state (e.g.  Conservative economic and liberal social policy would be optimal) but not the exact value of the optimal policies.
+An alternative classic model of electoral competition is the Hotelling Downs model. This leads to the famous median voter theorem where instead of the average belief only the opinion of the median voter matters. 
+Harrington is the first model of cheap talk in elections: He finds that in certain cases (when there is public support for their policy) politicians fully reveal their private information. 
+Kartik also concentrates on cheap talk in elections but crucially assume that parties are unable to commit to a policy platform. In this model, informative cheap talk equilibria exist due to risk adverse voters – politicians announce their true preferences in order to reduce uncertainty and thus make themselves a safer bet for voters.
+3 Model
+Cases
+Fully rational
+Irrational
+Costly
+Both
+Median
+4 Evaluation
+5 Extension and further research
+6 conclusion
+7 References
+8 Appendix
 
 
 
