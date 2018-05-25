@@ -169,6 +169,36 @@ i.e. the distance between the implemented policy when the message is A and when 
 \theta^{*} = \frac{\rho + 4\delta}{4-\rho}
 \end{equation}
 
+In general, multiple equilibria are possible each with a different number of partitions on the state space. It is intuitively clear, that the most informative equilibrum is the most efficient one from a welfare perspective thus I will now characterize the equilibrium with the finest partition possible. The indifference condition above can be generalized for multiple partitions which are separated by cutoff values $\theta_i$ for $i=1...N(\delta)$:
+
+\begin{equation}
+\theta+\delta - \frac{\theta_i+\theta_{i-1}}{2} = \frac{\theta_{i+1}+\theta_i}{2}-\theta-\delta
+\end{equation}
+
+which implies the following difference equation for the cutoff values $\theta_i$:
+
+\begin{equation}
+\theta_{i+1} = 2\theta_{i} - \theta_{i-1} + 4\delta
+\end{equation}
+
+Taking $\theta_0 = 0$ we can derive the solution to this second order difference equation in terms of $\theta_1$
+
+\begin{equation}
+\theta_i = \theta_1 i + 2i(i-1)\delta
+\end{equation}
+
+Now, the largest value $N(\delta)$ can take is the largest integer $i$ such that $2i(i-1)\delta < 1$ which is
+
+\begin{equation}
+-\frac{1}{2}+\frac{1}{2}\bigg( 1+\frac{2}{\delta} \bigg)^{\frac{1}{2}}
+\end{equation}
+
+Equilibrium selection
+
+
+
+It can be seen that $N(\delta)$ is decreasing in $\delta$ the measure of disagreement between the interest group and the public. This has an intuitive interpretation: The smaller the conflict of interest the more information can be transmitted - since the the value of $\delta$ is common knowledge and here we assume that all voters are rational this result can also be conceptualized as describing the level of trust in political communication. If an interest group is known to have a strong bias it will be able to convey less information to the public then a group whose interest are more aligned to the public interest. In the limit, as $\delta \rightarrow \infty$ the largest value $N(\delta)$ can take is 1 i.e. only the babbling equilibrium remains and no information can be transmitted.  
+
 This solution is the one usually presented as an illustration of the CS model. However, for the purposes of the current model, for reasons that I shall discuss in more detail in later sections, this solution is inadequate as it assumes a finite support for the prior of the underlying state. In the subsequent analysis I will assume that the prior of $\theta$ is unbounded in at least one direction in order to simplify the analysis. However, the uniform distribution cannot have unbounded support. For this reason, I present the baseline case for another prior which is supported for all nonnegative real numbers in order to facilitate subsequent comparisons between the baseline case and the case when some voters can be credulous. For this, I assume that the density of the prior distribution of the state is given by:
 
 \begin{equation}
@@ -205,9 +235,14 @@ this yields
 \theta^{*} = \frac{1-2 \delta}{\delta}
 \end{equation}
 
+
+\subsection{Dictatorship}
+
+We see that in both cases, when the electorate is fully rational informational transmission is difficult and cannot be perfect. This can be taken as a formalization of the fact that democratic decision making - where uninformed voters make decisions on questions which are presented to them by biased politicians and interest groups - has inherent shortcomings. Namely, perfectly rational voters do not trust politicians because they are fully aware of their bias and that if they were to believe a campaign message the politician would have an interest to bias the campaign. There is however a simple way however to sidestep the complexities of democratic decision making: Instead of holding elections citizens might decide to upend democracy and simply transfer leadership to the interest group and ask it to choose the policy according to its own interest. An alternative, and arguably more plausible, interpretation of such a situation is that the interest group has enough resources - both material and military - to suppress democracy and maintain its own rule by force. It is clear that in this case the interest group will fare better as it can implement the policy that is its own bliss point. However, in certain cases the voters welfare will also increase. The intuition for this result is simple: Consider a case when $\rho = 1$ and $\delta$ is a very small number. Then, the conflict of interest between the campaigner and the public is infinitesimal, and yet, the set set of feasible equilibria is the one described above: even when the partition of the state space is the finest, a significant amount of information is lost due to the lack of trust between the politician and the voter. On the other hand, with the right to choose a policy delegated to the interest group, the optimal policy implemented will infinitesimally close to the optimal policy of the public. In fact, we can calculate, the threshold level of bias which will make a dictatorial decision making rule Pareto dominate the democratic mechanism.
+
 \subsection{Partially credulous electorate}
 
-I first consider a simplified version of the model where lying is costless. The interest group can have an effect on the implemented policy just by costlessly announcing a value. Thus, we expect that the group will announce an extreme enough policy so as to make the realised policy equal to its bliss point.
+I first consider a simplified version of the model where lying is costless. The interest group can have an effect on the implemented policy just by countlessly announcing a value. Thus, we expect that the group will announce an extreme enough policy so as to make the realized policy equal to its bliss point.
 
 In this case, the utility function of the group is:
 
@@ -243,13 +278,29 @@ It can be seen that the message is linearly related to the underlying state. It 
 
 \subsection{Costly lying with fully rational electorate}
 
-Although the case when both credulous voters and lying costs are present is fairly involved, we can still gain some insights into how lying costs affect the campaign by analyzing them with a fully rational electorate. As it turns out, costly lying alone can induce separating a equilibrium in this game. The objective function in this case is
+Although the case when both credulous voters and lying costs are present is fairly involved, we can still gain some insights into how lying costs affect the campaign by analyzing them with a fully rational electorate. As it turns out, costly lying alone can induce separating a equilibrium in this game. For simplicity, here too I take $\rho = 1$ The objective function in this case is
 
 \begin{equation}
--(\mu^{-1}(m)-(\rho \theta + \delta)) - k (m -\theta)
+-(\mu^{-1}(m)-(\theta + \delta)) - k (m -\theta)
 \end{equation}
 
+The first order condition for this problem is
 
+\begin{equation}
+\delta-\mu'(\theta) k(\mu(\theta) - \theta) = 0
+\end{equation}
+
+Defining the new variables $v(\theta)=\mu(\theta)-\theta$ and $c=\frac{\delta}{k}$ such that $v'(\theta)=\mu'(\theta)-1$
+
+\begin{equation}
+v'(\theta) = \frac{c-v(\theta)}{v(\theta)}
+\end{equation}
+
+Taking $\mu(0) = 0$ as a first order condition, this differential equation has the solution
+
+\begin{equation}
+\mu(\theta) = \theta-\frac{\delta}{k}\log \frac{\delta}{k}
+\end{equation}
 
 \subsection{Partially credulous electorate in a representative voter setting}
 
@@ -306,9 +357,13 @@ Other topics to cover:
 
 Median voter vs GH framework
 
+Imperfectly informed politicians
+
 campaign before or after voting
 
 potentially honest interest group
+
+Some voters are perfectly rational
 
 Two parties can campaign - sig vs party can campaign
 
