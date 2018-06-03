@@ -1,8 +1,5 @@
-\documentclass{article}
+\documentclass[12pt]{report}
 
-\title{MA Economics thesis}
-\date{2018-05-08}
-\author{Aron Hajnal}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{tikz}
@@ -12,40 +9,79 @@
 \pgfplotsset{compat=1.12}
 \usepackage{wasysym}
 \usepackage{bbm}
+\usepackage{ceuthesis}
+\usepackage[capposition=top]{floatrow}
+
+\title{Why do politicians lie? - A model of political communication with credulous voters}
+\author{Aron Hajnal} % your name
+\dept{Economics}
+\degree{Master of Arts in Economics} % or Master of Science
+\copyrightyear{2018}
+\supervisor{Eyno Rots} %or all supervisors
+\abstract{
+
+I build a model of political campaigning with probabilistic voting when some of the voters are credulous. Parties have fixed and pliable policies and can adjust their pliable policies to maximize their vote share. Voters have an optimal pliable policy which is unknown to them and a random preference for fixed policies. Before the election a special interest group, which knows the optimal level of the pliable policy but would itself prefer a different value, can wage a campaign which can convey some information to voters about the 
+optimal policy. When all voters are rational, the interest group truthfully reveals an interval in which the true optimal policy lies if its bias is not too large. When a sufficiently large fraction of the electorate is credulous the interest group's campaign overstates its policy bias and can always ensure that its own optimal policy is implemented. If the bias is small enough to enable an informative equilibrium when all voters are rational, the introduction of credulous voters is Pareto improving.
+}
 
 \begin{document} 
 
-\maketitle
+%This produces the title page
+\makethesistitle
+
+%If you want the copyright page appear, otherwise comment it out
+\makecopyrightpage
+
+%Optional: if you have acknowledgments, it goes to the TOC as well
+\prefacesection{Acknowledgments}
+%% \begin{singlespace}
+I would like to thank my advisor, Eyno Rots, for his helpful suggestions.
+
+I would also like to thank my teachers and fellow students at CEU for creating an intellectually stimulating environment and helping me better understand economics.
+%% \end{singlespace}
+
+%% this produces the Abstract page from the definition above
+\makeabstract
+
+% table of contents, list of figures and tables, comment out if you have
+% none
+\tableofcontents
+%\makelistoftables
+\makelistoffigures
+
+%Start numbering in arabic
+\pagenumbering{arabic}
+
 
 \section{Introduction}
 
-On the 23rd of June 2016 the UK has voted to leave the EU after n years of membership. The results of the referendum have come as a surprise to most observers as there has been a widespread consensus among economists that a leave vote would inflict serious damages on the British economy.  Such an event raises the question for economists and political scientists whether a decision like this - which seemingly goes against the interests of those who made it - can be explained based the classical model of rational behavior. In case of Brexit, Becker (2017) has found evidence which calls into question the applicability of rational choice theory in this case, showing that in areas where the economic cost of Brexit is likely to be higher show no significantly higher rejection of Brexit than other areas. Perhaps not surprisingly, Becker instead finds that Brexit supporters were primarily the lower educated, poorer voters.
+On the 23rd of June 2016 the UK has voted to leave the EU after 43 years of membership. The results of the referendum have come as a surprise to most observers as there has been a widespread consensus among economists that a leave vote would inflict serious damages on the British economy.  Such an event raises the question for economists and political scientists whether a decision like this - which seemingly goes against the interests of those who made it - can be explained based the classical model of rational behavior. In the case of Brexit, Becker (2017) \cite{becker2017voted} has found evidence which calls into question the applicability of rational choice theory in this case, showing that in areas where the economic cost of Brexit is likely to be higher show no significantly higher rejection of Brexit than other areas. Perhaps not surprisingly, Becker instead finds that Brexit supporters were primarily the lower educated, poorer voters.
 
- Of course political decision making is plagued by the problem of rational ignorance i.e. the fact that rational people will not be willing to invest the necessary time and energy to carefully evaluate the validity of every campaign message they receive given that the probability that their vote will have an effect on the outcome is infinitesimal. Olson has famously noted that a small but well organized lobby might have a disproportionate influence on public policy if the benefit to a small special interest group dwarfs the cost to the average citizen.  However, even if voters will not expend much effort with fact checking everything they hear in a campaign, we might still expect them to take information in campaign messages with a pinch of salt. In particular, rational people understand that their interests do not align perfectly with the interests of the creators of the campaign and thus they should ignore campaign messages which try to convince them about the merits of a particular policy. Several important questions arise from this line of thought.
+ Of course political decision making is plagued by the problem of rational ignorance i.e. the fact that rational people will not be willing to invest the necessary time and energy to carefully evaluate the validity of every campaign message they receive given that the probability that their vote will have an effect on the outcome is infinitesimal. Olson (2009) \cite{olson2009logic} has famously noted that a small but well organized lobby might have a disproportionate influence on public policy if the benefit to a small special interest group dwarfs the cost to the average citizen.  However, even if voters will not expend much effort with fact checking everything they hear in a campaign, we might still expect them to take information in campaign messages with a pinch of salt. In particular, rational people understand that their interests do not align perfectly with the interests of the creators of the campaign and thus they should ignore campaign messages which try to convince them about the merits of a particular policy if they are aware of the bias. Several important questions arise from this line of thought.
  
 Firstly, even if we assume that parties can commit to the policy that they announce and that they know perfectly well which policy is the optimal one (the policy that a benevolent social planner would choose to maximize a social welfare function) they are not bound to be truthful in communicating this knowledge to voters. Of course, one might argue that there are long term reputational costs to misleading the public but how much these costs constrain campaign messages in practice is not clear. As a first approximation, political campaigns can be regarded as cheap talk, i.e. communication where the message sent does not directly affect the utility of the sender. If voters are fully rational does this imply that voters will completely ignore campaigns? 
 
-A famous answer in the negative has come from Crawford and Sobel: They have shown that even in a very simple case there exists Nash equilibria of a cheap talk game even if the Sender and the Receiver have divergent interests. These equilibria are pooling in the sense that the Sender truthfully reveals in which set of states the world is in but does not give further information about which state within that set is the true one.  The voters in turn, being perfectly rational, know that in equilibrium the message is honest and update their beliefs using the Bayes rule.
+A famous answer in the negative has come from Crawford and Sobel (1982) \cite{crawford1982strategic}: They have shown that even in a very simple case there exists Nash equilibria of a cheap talk game even if the Sender and the Receiver have divergent interests. These equilibria are pooling in the sense that the Sender truthfully reveals in which set of states the world is in but does not give further information about which state within that set is the true one.  The voters in turn, being perfectly rational, know that in equilibrium the message is honest and update their beliefs using the Bayes rule.
 
-Thus a simple approach to modelling political communication would be adapting the Crawford Sobel cheap talk framework. Indeed, this is exactly the approach the Grossman and Helpman take. They use a probabilistic voting framework and the insights of the CS model to study political campaigns assuming a rational electorate. Their focus is a special interest group that wants to convince the general public about the desirability of a certain policy. A good example of such an interest group could be the National Rifle Association in the US which is famous (perhaps infamous) for being the primary lobby for lax gun control. We might assume that the NRA with its resources has a good idea about the socially optimal level of arms regulation however its own interests do not coincide with those of the general public. Other examples of interest groups include manufacturers associations or labor unions who might publicly campaign for certain policies that will benefit their members. If they manage to shift public opinion then political parties will take this into account when they form their own agendas. The question that GH ask is: What kind of information can an interest group transmit to a rational electorate which is perfectly aware of the group's bias. Their answer say that the campaign of the group will be described by the predictions of the CS model: the message sent will be vague, not specifying what is exactly the right way to go, but it will be by and large correct.
+Thus a simple approach to modelling political communication would be adapting the Crawford Sobel cheap talk framework. Indeed, this is exactly the approach the Grossman and Helpman (2001) \cite{grossman2001special} take. They use a probabilistic voting framework and the insights of the CS model to study political campaigns assuming a rational electorate. Their focus is a special interest group that wants to convince the general public about the desirability of a certain policy. A good example of such an interest group could be the National Rifle Association in the US which is famous (perhaps infamous) for being the primary lobby against stricter gun control. We might assume that the NRA with its resources has a good idea about the socially optimal level of arms regulation however its own interests do not coincide with those of the general public. Other examples of interest groups include manufacturers associations or labor unions who might publicly campaign for certain policies that will benefit their members. If they manage to shift public opinion then political parties will take this into account when they form their own agendas. The question that GH ask is: What kind of information can an interest group transmit to a rational electorate which is perfectly aware of the group's bias. Their answer is that the campaign of the group will be described by the predictions of the CS model: the message sent will be vague, not specifying what is exactly the right way to go, but it will be by and large correct.
 
 The test of this theory (as the test of any other economic model) is how well the conclusions of the model fit the stylized facts of reality. Of course at this level of abstraction we should not expect a perfect explanation of every empirical observation of politics we might have, rather a reproduction of the most important features that we are interested in. In this case, the question is how to interpret the Crawford Sobel model in a political context and does the conclusion provide a satisfactory description of political campaigns.
 
-As much historical experience suggests the assumption of perfect rationality on part of the voters and the conclusion that campaign messages are truthful when information is transmitted does not provide even an approximate description of actual campaigns. Groups that attempt to shift public opinion do not carefully reveal the set a set of policies one of which is the socially optimal. In contrast, they often put forward a case for a very specific course of action, describing in detail what would be the best policy for the general welfare of the public but often tilting this program to serve their own interests instead. With the notion of a post truth world emerging recently in the popular press, there is ample evidence (e.g.Rodriguez et al.) that misinformation plays a key role in campaign communication. Models based on solely rational behavior cannot explain lying in politics - in equilibrium deceit cannot survive. This suggests that deviations from rationality play an important role in forming political discourse. 
+As much historical experience suggests the assumption of perfect rationality on part of the voters and the conclusion that campaign messages are truthful when information is transmitted does not provide even an approximate description of actual campaigns. Groups that attempt to shift public opinion do not carefully reveal the set a set of policies one of which is the socially optimal. In contrast, they often put forward a case for a very specific course of action, describing in detail what would be the best policy for the general welfare of the public but often tilting this program to serve their own interests instead. With the notion of a post truth world emerging recently in the popular press, there is ample evidence (e.g. Rodriguez et al. (2017) \cite{barrera2017facts}) that misinformation plays a key role in campaign communication. Models based on solely rational behavior cannot explain lying in politics - in equilibrium deceit cannot survive. This suggests that deviations from rationality play an important role in forming political discourse. 
 
-The question that we might pose then is: What role exactly does irrationality play in political communication? The role of irrationality in decision making has long been known to economists.  Starting with Kahneman and Tversky there has been a long literature on the various forms of systematic errors that people make. A particular example of these, which plays crucial importance in the explanation of human behavior in situations that feature asymmetries of information (like political campaigns), is that most people find it difficult to fully take into account how the interests of other people influence their actions. A possible formalization of this has been provided by Eyster and Rabin in the form of the cursed equilibrium where agents do not fully understand how the hidden type of other players influences their actions. In political campaigns a similar mental limitation plays a crucial role namely that people often lend more credence to political messages then what would be rationally justifiable.  This trait which we might call naiveté or credulity is arguably something that a good political campaign should exploit. But what exactly is the cost that we pay for our naiveté?  If only a small fraction of the electorate is credulous, will the damage also be limited?
+The question that we might pose then is: What role exactly does irrationality play in political communication? The role of irrationality in decision making has long been known to economists.  Starting with Kahneman and Tversky (1984) \cite{kahneman1984choices} there has been a long literature on the various forms of systematic errors that people make. A particular example of these, which plays crucial importance in the explanation of human behavior in situations that feature asymmetries of information (like political campaigns), is that most people find it difficult to fully take into account how the interests of other people influence their actions. A possible formalization of this has been provided by Eyster and Rabin (2005) \cite{eyster2005cursed} in the form of the cursed equilibrium where agents do not fully understand how the hidden type of other players influences their actions. In political campaigns a similar mental limitation plays a crucial role namely that people often lend more credence to political messages then what would be rationally justifiable.  This trait which we might call gullibility or credulity is arguably something that a good political campaign should exploit. But what exactly is the cost that we pay for our naivete?  If only a minority of the electorate is credulous, will the damage also be limited?
 
-A theoretical framework for answering this question has been provided by Kartik extending the classic Crawford Sobel framework. Their setup features a messaging game which differs from the Crawford Sobel model in two respects. First, they introduce credulity on part of the receiver and second they introduce a cost of lying. Their model provides a good starting point to understand the implications of credulity in a political context.
+A theoretical framework for answering this question has been provided by Kartik et al. (2007) \cite{kartik2007credulity} extending the classic Crawford Sobel framework. Their setup features a messaging game which differs from the Crawford Sobel model in two respects. First, they introduce credulity on part of the receiver and second they introduce a cost of lying. Their model provides a good starting point to understand the implications of credulity in a political context.
 
-In the model presented in this paper I shall integrate the insights of the Kartik model into a model of political campaigns that is due to Grossman and Helpman. This model contributes to the literature on political campaigns by showing how credulity and reputational costs to lying influence campaign communication, a question that to my knowledge has not been explored before in this setting.
+In the model presented in this paper I shall integrate the insights of the Kartik model into a model of political campaigns that is due to Grossman and Helpman. This model contributes to the literature on political campaigns and special interest politics by showing how credulity and reputational costs to lying influence campaign communication, a question that to my knowledge has not been explored before in this setting.
 
-In particular, I will show that even a small fraction of credulous voters in the electorate has dramatic influences on both the realized outcome and the message that is transmitted. Credulity even if it impacts only a few voters changes the Nash equilibria of the game qualitatively and - if talk is indeed cheap – allows the campaigning interest group to always implement its preferred policy. The intuition for this is simple: In the model of voting presented by Grossman and Helpman   in a two party system both parties choose to announce the policy that is the posterior expected optimal policy of the average voter after hearing the campaign message. If a fraction of the electorate can be manipulated without costs the campaigning group will choose to send them a message that will make the average of the posterior expectation be its own bliss point. Even though in equilibrium rational voters are able to infer back the true state the credulous voters can be made to have a distorted enough view to shift the average to any desired point in the policy space.
+In particular, I will show that even a small fraction of credulous voters in the electorate has dramatic influences on both the realized outcome and the message that is transmitted. Credulity even if it impacts only a minority of voters changes the Nash equilibria of the game qualitatively and - if talk is indeed cheap – allows the campaigning interest group to always implement its preferred policy. The intuition for this is simple: In the model of voting presented by Grossman and Helpman in a two party system both parties choose to announce the policy that is the posterior expected optimal policy of the average voter after hearing the campaign message. \footnote{An important proviso for this conclusion is that the voters preference shocks for fixed policies are spread out sufficiently.} If a fraction of the electorate can be manipulated without costs the campaigning group will choose to send them a message that will make the average of the posterior expectation be its own bliss point. Even though in equilibrium rational voters are able to infer back the true state the credulous voters can be made to have a distorted enough view to shift the average to any desired point in the policy space.
 
 This result is slightly counterintuitive. One could ask: If credulous voters are a minority wouldn't a party be better off by ignoring them completely and cater only to the rational majority? In a deterministic voting model where the winner is determined solely by the median voter this would indeed happen. However, the median voter framework is best suited for the study of a one dimensional policy space which is not realistic. Here, I consider a case where besides a unidimensional pliable policy issue - that is an issue where parties can freely choose their stance to maximize their vote share - parties also have fixed policy positions over which voters have random preferences. This means that voters choose a party that is closer to their bliss point with higher probability.
 
 Consider now a situation when the majority of voters is rational and a minority is irrational and after the campaign is over their beliefs about the optimal policy have been set such that the average expected optimal policy is equal to the bliss point of the campaigning interest group. The majority in equilibrium inferred the true state from the campaign and is at its true bliss point whose distance from the average belief is now equal to the bias of the interest group. The irrational voters form a minority so in order for them to shift the average belief their distance from the average must be greater then the bias of the interest group. Consider now, that according to the advice of GH, both parties announce the average expected optimal policy in order to maximize their vote share. However, one of the parties is advised to ignore the opinion of the minority and to announce the bliss point of the rational majority. With this move the party can increase it vote share among rational voters but decreases its vote share among credulous voters. Under quadratic utility the marginal number of votes gained/lost in a given group of voters when a party moves closer to/away from them is proportional to the size of that group and to the distance between the party's current position and the group's most preferred policy. The party can maximize its vote share when the marginal number of votes gained in one group equals the marginal number of votes lost in the other group i.e. when the weighted distances equal. Thus neither party can do better than to announce the average favorite policy of the whole electorate which - thanks to the preceding campaign - is equal to the bliss point of the interest group.
 
-Of course, this conclusion is quite an extreme one. This has the advantage of showing the contrast between my model and that of Grossman and Helpman. In fact, in some areas of economics – most notably in finance - it is often argued that modeling irrationality is not necessary despite the mounting empirical evidence in favor of it due to the fact that economic forces like arbitrage will make the effects of irrationality disappear in the aggregate. In other words, the most common justification of the rational choice model in economics is that models of aggregate economic variables such as prices of assets are robust to the introduction of irrational agents. This paper shows that this conclusion does not hold in this case i.e.  in political campaigns no corrective mechanism drives out the influence of irrationality which implies that such behavior should not be ignored by economic models. 
+Of course, this conclusion is quite an extreme one. This has the advantage of showing the contrast between my model and that of Grossman and Helpman. In fact, in some areas of economics - most notably in finance - it is often argued that modeling irrationality is not necessary despite the mounting empirical evidence in favor of it due to the fact that economic forces like arbitrage will make the effects of irrationality disappear in the aggregate. In other words, the most common justification of the rational choice model in economics is that models of aggregate economic variables such as prices of assets are robust to the introduction of irrational agents. This paper shows that this conclusion does not hold in this case i.e.  in political campaigns no corrective mechanism drives out the influence of irrationality which implies that such behavior should not be ignored by economic models. 
 
 Of course, there are forces that constrain political campaigns not to drive public opinion too further away from the truth. In the long run, voters might find out the true state of the world and lose trust in campaigners who deceived them. This leads to the introduction of another new element into the Grossman Helpman model, namely a penalty for lying. It turns out, that costliness of lying in itself is also sufficient to induce separating equilibria (where each state of the world corresponds to a unique message) even without the presence of irrational agents. When both irrationality and costly lying are present – arguably the most realistic of the cases presented so far – the analytical solution to the sender’s strategy becomes a complicated function of the state thus I do not analyze this case in detail.
 
@@ -56,45 +92,45 @@ The rest of this paper is organized as follows:  Section 2 reviews the existing 
 
 \section{Literature review}
 
-The basic starting point for this paper is the model presented in Grossman and Helpman. In their baseline model of voting which they employ in many different settings, features a continuum of voters who have preferences over parties based on their policies. GH distinguishes between fixed and pliable policies for the parties and assumes that voters are more likely to vote for party which they think is closer to their optimal pliable policy. However, voters also have preferences over the fixed policies which are random and exogenous to the model furthermore they do not know the optimal value of the optimal pliable policy and treat it as a random variable. They then show that in a two party system both parties choose to announce the policy that is the average of the posterior expected optimal policy of the voters after receiving any messages. Before the parties announce their platforms a special interest group has a chance to send a message on the optimal policy. In the GH model this first step of the game is exactly identical to the Crawford Sobel cheap talk model.
+\subsection{Starting point}
 
-The CS model is a general and widely used model of cheap talk, i.e. costless communication. A sender is perfectly informed about the state of the world while a decision maker is uninformed. The sender can send a message to the decision maker about the state which in general can be any probability distribution over the state space and can depend on the true state.  The decision maker then uses her knowledge of the sender’s equilibrium strategy and the message and updates her belief about the state using the Bayes rule. Then she makes a decision (chooses an element of the state space) that is optimal for her given the posterior beliefs.  The key conflict in this game is that while the bliss point of both the sender and the receiver in general is state dependent it does not have to coincide. This means that the sender has an incentive to induce an action which leads to an action that makes the action of the decision maker close to its own ideal policy. Despite this conflict of interest CS show that there exist equilibria where information is transmitted, where the sender truthfully reveals a subset of states in which the true state is in.
+The basic starting point for this paper is the model presented in Grossman and Helpman (2001) \cite{grossman2001special}. Their baseline model of voting which they employ in many different settings, features a continuum of voters who have preferences over parties based on their policies. GH distinguishes between fixed and pliable policies for the parties and assumes that voters are more likely to vote for party which they think is closer to their optimal pliable policy. However, voters also have preferences over the fixed policies which are random and exogenous to the model furthermore they do not know the optimal value of the optimal pliable policy and treat it as a random variable. They then show that in a two party system both parties choose to announce the policy that is the average of the posterior expected optimal policy of the voters after receiving any messages. Before the parties announce their platforms a special interest group has a chance to send a message on the optimal policy. In the GH model this first step of the game is exactly identical to the Crawford Sobel \cite{crawford1982strategic} cheap talk model.
 
-The CS model has been very influential in information economics and there have been several extensions the most relevant of which is the Kartik model. In a series of papers Kartik et al. extends the CS model in two directions: They introduce credulous agents and costly lying. There framework is very general and they present the properties of the resulting equilibria in an abstract setting. The motivating examples they provide for the analysis are stock recommendations, advertising and grade inflation.  They do not mention politics as a possible field of application.
+\subsection{Cheap talk models}
 
-There are other directions in which the CS model has been extended. For example, Chakraborty presents a model with multidimensional state space and state independent preferences for the sender. They show that in this case, it is possible to transmit information even is the bias of the sender is large, a result which does not hold in one dimension. Their intuition is that the expert can send comparative messages about the state i.e. saying that in dimension one the state is higher than in dimension two which in equilibrium increases the welfare of the receiver.
+The CS model is a general and widely used model of cheap talk, i.e. costless communication. A sender is perfectly informed about the state of the world while a decision maker is uninformed. The sender can send a message to the decision maker about the state which in general can be any probability distribution over the state space and can depend on the true state.  The decision maker then uses her knowledge of the sender’s equilibrium strategy and the message and updates her belief about the state using the Bayes rule. Then she makes a decision (chooses an element of the state space) that is optimal for her given the posterior beliefs.  The key conflict in this game is that while the bliss point of both the sender and the receiver in general is state dependent it does not have to coincide. This means that the sender has an incentive to induce an action that is close to its own ideal policy. Despite this conflict of interest CS show that there exist equilibria where information is transmitted, where the sender truthfully reveals a subset of states in which the true state is in.
 
-Similarly to how this paper uses the insights of Kartik to better understand campaign messages, Schankenberg applies Chakraborty to politics. In particular, he argues that political communication reveals directional information about the multidimensional state (e.g.  Conservative economic and liberal social policy would be optimal) but not the exact value of the optimal policies.
+The CS model has been very influential in information economics and there have been several extensions the most relevant of which is the Kartik model. In a series of papers Kartik et al. (2007) \cite{kartik2007credulity}, Ottaviani (2002) \cite{ottaviani2002non} and Ottaviani (2000) \cite{ottaviani2000economics} extend the CS model in two directions: They introduce credulous agents and costly lying. Their framework is very general and they present the properties of the resulting equilibria in an abstract setting. The motivating examples they provide for the analysis are stock recommendations, advertising and grade inflation.
 
-Chen describes an extension of the CS model where the Receiver might be naive and the Sender might be honest.
+There are other directions in which the CS model has been extended. For example, Chakraborty and Harbough (2010) \cite{chakraborty2010persuasion} present a model with multidimensional state space and state independent preferences for the sender. They show that in this case, it is possible to transmit information even is the bias of the sender is large, a result which does not hold in one dimension. Their intuition is that the expert can send comparative messages about the state i.e. saying that in dimension one the state is higher than in dimension two which in equilibrium increases the welfare of the receiver.
 
-Chen et al. describe a possible criterion for equilibrium selection in CS type cheap talk games. Their criterion which they call NITS (no incentive to separate) selects the most informative equilibrium in the cheap talk game by first introducing small perturbations into the model and then letting these go to zero.
+Similarly to how this paper uses the insights of Kartik to better understand campaign messages, Schankenberg (2016) \cite{schnakenberg2016directional} applies the theoretical results of Chakraborty to politics. In particular, he argues that political communication reveals directional information about the multidimensional state (e.g.  Conservative economic and liberal social policy would be optimal) but not the exact value of the optimal policies.
 
+Chen \cite{chen2011perturbed} describes an extension of the CS model where the Receiver might be naive and the Sender might be honest. This paper builds on Chen et al. \cite{chen2008selecting} which describes a possible criterion for equilibrium selection in CS type cheap talk games. Their criterion which they call NITS (no incentive to separate) selects the most informative equilibrium in the cheap talk game by first introducing small perturbations into the model and then letting these go to zero.
 
-Holmström is the first to consider the question of delegation in the CS game. Delegation in this context means transferring the right of choosing an action to the Sender. While this clearly allows the sender to take her most preferred action and thereby imposes her bias as a utility cost on the Recipient with certainty it can in principle lead to a Pareto improvement. Whether this indeed happens is not clear at first sight as a decreasing bias makes delegation more attractive to the Recipient but it also makes the equilibrium with the most partitions more informative. Dessein however shows that under general conditions delegation is Pareto dominant when the bias of the Sender is sufficiently small. He also shows that the Recipient can do even better restricted delegation meaning that the Sender can only choose an action from a certain subset of the state space that is chosen to maximise the ex ante expected utility of the Recipient.
+Holmstrom (1982) \cite{holmstrom1982theory} is the first to consider the question of delegation in the CS game. Delegation in this context means transferring the right of choosing an action to the Sender. While this clearly allows the sender to take her most preferred action and thereby imposes her bias as a utility cost on the Recipient with certainty it can in principle lead to a Pareto improvement. Whether this indeed happens is not clear at first sight as a decreasing bias makes delegation more attractive to the Recipient but it also makes the equilibrium with the most partitions more informative. Dessein (2002) \cite{dessein2002authority} however shows that under general conditions delegation is Pareto dominant when the bias of the Sender is sufficiently small. He also shows that the Recipient can do even better by restricted delegation meaning that the Sender can only choose an action from a certain subset of the state space that is chosen to maximize the ex ante expected utility of the Recipient.
 
-Allowing multiple rounds of communication can also improve the CS outcome. Morgan and Krishna show that allowing the Recipient to send messages improves the equilibrium outcome. Of course, the Recipient has in fact no information about the state so she can only send random messages, however these random messages can serve as coordination devices that improve the final outcome. In another paper Krishna and Morgan study a case when there are two Senders. If the two Senders announce their messages simultaneously then the equilibrium outcome is fully revealing.
+Allowing multiple rounds of communication can also improve the CS outcome. Morgan and Krishna (2001) \cite{krishna2001model} show that allowing the Recipient to send messages improves the equilibrium outcome. Of course, the Recipient has in fact no information about the state so she can only send random messages, however these random messages can serve as coordination devices that improve the final outcome. In another paper Krishna and Morgan (2004) \cite{krishna2004art} study a case when there are two Senders. If the two Senders announce their messages simultaneously then the equilibrium outcome is fully revealing.
 
-A classic model of electoral competition is the Hotelling Downs model. This leads to the famous median voter theorem. If voting can be accurately described by the median voter framework then politicians can safely ignore minorities as it is enough for them to convince half of the voters and a shift of opinion in a small section of the electorate will have no impact of their chances of being elected.
+\subsection{Election models}
 
-A different approach to modelling elections is the probabilistic voting model first proposed by Lindbeck and Weibull. In this framework the policy positions that parties take have a probabilistic impact on voters. This means that a voters political conviction is not a binary variable anymore rather it varies continuously. The crucial implication of this feature is that - in contrast to the Downsian model - every voter has an impact on the vote share that a political party will receive. In particular, an extremist minority which does not include the median voter can have an influence on the realized policy outcome if its members willingness to vote for a given party varies strongly based on the stance the party takes on the given policy question.
+A classic model of electoral competition is the Hotelling Downs model put forward by Downs (1957) \cite{downs1957economic}. This leads to the famous median voter theorem. If voting can be accurately described by the median voter framework then politicians can safely ignore minorities as it is enough for them to convince half of the voters and a shift of opinion in a small section of the electorate will have no impact of their chances of being elected.
+
+A different approach to modelling elections is the probabilistic voting model first proposed by Lindbeck and Weibull (1987) \cite{lindbeck1987balanced}. In this framework the policy positions that parties take have a probabilistic impact on voters. This means that a voters political conviction is not a binary variable anymore rather it varies continuously. The crucial implication of this feature is that - in contrast to the Downsian model - every voter has an impact on the vote share that a political party will receive. In particular, an extremist minority which does not include the median voter can have an influence on the realized policy outcome if its members willingness to vote for a given party varies strongly based on the stance the party takes on the given policy question.
 
 Harrington is the first model of cheap talk in elections: He finds that in certain cases (when there is public support for their policy) politicians fully reveal their private information.
 
 Kartik also concentrates on cheap talk in elections but crucially assume that parties are unable to commit to a policy platform. In this model, informative cheap talk equilibria exist due to risk adverse voters – politicians announce their true preferences in order to reduce uncertainty and thus make themselves a safer bet for voters.
-3 Model
-Cases
-Fully rational
-Irrational
-Costly
-Both
-Median
-4 Evaluation
-5 Extension and further research
-6 conclusion
-7 References
-8 Appendix
 
+\subsection{Evidence of credulity in the real world}
+
+Credulity is an important enough phenomenon to be the subject of both observational and experimental studies.
+
+There is much observational evidence that modern media has a significant impact on the beliefs that people hold. For example, Gentzkow and Shapiro (2004) \cite{gentzkow2004media} find that individuals in the Arab world who were more exposed to Arabic news channels are less likely to agree with the statement that the 11th of September attacks were caused by Muslim terrorists then those who had access to Western media and this relationship does not change when controlling for a range of demographic factors. Of course, one could argue here that ignoring Western media is an endogenous choice determined by the prior beliefs of individuals but this and much empirical evidence suggests that people's opinions diverge when presented with new evidence an observation fundamentally at odds with Bayesian rationality. 
+
+There is also evidence regarding credulity of people especially when they do not have large personal stakes in being correct, such as in politics where the probability of being the decisive voter in an election is extremely low and provides little incentive for fact checking. The impact of fake news and other forms of misinformation has received increasing attention as there have been claims that purposefully forged deception campaigns have been used to influence elections in the US, France, the UK and other countries. For example, Rodriguez et al. (2017) \cite{barrera2017facts} uses an online experiment to show tat so called 'alternative facts' which were used in the 2017 French presidential election campaign by Marine Le Pen were highly efficient in changing the policy conclusions of voters. 
+
+At the same time, there is also evidence against human credulity. A review of empirical evidence is Mercier (2017) \cite{mercier2017gullible} which collects findings from experimental psychology to evaluate the claim that humans place undue weight on the statements of others. Its main finding is that humans possess a good ability check the validity of claims and credulity which seems to exist in many domains of life is due the congruence of the listeners preexisting beliefs with the message that they hear. 
 
 \section{The model}
 
@@ -103,7 +139,7 @@ The players of this political game are a continuum of voters, two political part
 
 The solution concept that I use to derive a solution to this model is the Perfect Bayesian Equilibrium. To find such a solution the model is solved by backward induction: first we derive the optimal voting rule for the voters given party positions and posterior beliefs, then the optimal policy announcement for parties given the beliefs of voters and finally the campaign of the interest group which anticipates the actions of the other players.
 
-In the baseline case all voters are fully rational. This version of the model is described in Grossman and Helpman. In this case the first stage of the model, the campaign of the interest group is identical to the classical Crawford - Sobel type cheap talk game. My contribution is to show what happens to the baseline model if we add a modification: a fraction of the electorate is naive meaning that they believe the campaign message. This makes reporting specific but false values of the underlying state variable (the optimal policy) very attractive for the interest group. This modification of the cheap talk game actually already exists in Kartik et al. (2007) but they work in a more abstract setting and they do not mention politics as an example (they mention financial advisers and advertising as applications). So my main contribution with this model is showing how the Kartik model can be applied in a political economy setting to model political campaigns.
+In the baseline case all voters are fully rational. This version of the model is described by Grossman and Helpman. In this case the first stage of the model, the campaign of the interest group is identical to the classical Crawford - Sobel type cheap talk game. My contribution is to show what happens to the baseline model if we add a modification: a fraction of the electorate is naive meaning that they believe the campaign message. This makes reporting specific but false values of the underlying state variable (the optimal policy) very attractive for the interest group. This modification of the cheap talk game actually already exists in Kartik et al. (2007) but they work in a more abstract setting and they do not mention politics as an example (they mention financial advisers and advertising as applications). So my main contribution with this model is showing how the Kartik model can be applied in a political economy setting to model  campaigns of special interest groups extending the model of GH.
 
 Of course, the PBE solution concept is not relevant anymore when some voters are irrational. We can reinterpret the game such that the irrational voters are not players in the game theoretical sense of the world, rather a mechanistic element of the environment. Just as in a standard equilibrium the rational players take the behaviour of the other players (including the irrational ones) as given and update their beliefs and maximise their utility given those actions. The actions of the irrational players modify the outcome of the game in a mechanistic way according to a behavioural rule. It is important to note that in the current setting the irrationality does not come from abandoning utility maximisation, rather it is a result of beliefs that are updated incorrectly.
 
@@ -112,15 +148,15 @@ Formally, the ingredients of the model are the the following.
 There is a unit mass of voters indexed by $i$. The preferences of voter $i$ for policies of party $k$ are represented by
 
 \begin{equation}
-u_i = -(p_k-\pi)^2+v_{ik}
+u_i = -(p_k-\pi_i)^2+v_{ik}
 \end{equation}
 
-where $\pi$ is a random variable representing the voters' posterior belief about the optimal value of the policy after receiving the message of the interest group, $p_k$ is the policy of the party and $v_{ik}$ is the preference for the fixed policies.
+where $\pi$ is a random variable representing the voters' posterior belief about the optimal value of the policy after receiving the message of the interest group, $p_k$ is the policy of the party and $v_{ik}$ is the utility of voter $i$ from the fixed policies of party $k$.
 
-Thus voter $i$ will vote for party A if
+Thus voter $i$ will vote for party A if \footnote{In case $\mathrm{E}( -(p_A-\pi_i)^2 = \mathrm{E}( -(p_B-\pi_i)^2+v_{i}$ voter $i$ is indifferent between the two parties. Due to the assumption that there is a continuum of voters, indifferent voters have zero measure and thus do not influence the election outcome.}
 
 \begin{equation}
-\mathrm{E}( -(p_A-\pi)^2 > \mathrm{E}( -(p_B-\pi)^2+v_{i}
+\mathrm{E}( -(p_A-\pi_i)^2 > \mathrm{E}( -(p_B-\pi_i)^2+v_{i}
 \end{equation}
 
 where $v_{i}$ is voter $i$'s preference for the policies of party A (i.e. $v_i = v_{A}-v_{B}$ the preference of voter $i$ for the fixed policies of party A).
@@ -128,32 +164,42 @@ where $v_{i}$ is voter $i$'s preference for the policies of party A (i.e. $v_i =
 Rearranging we obtain
 
 \begin{equation}
-v_i < 2(\bar{p} - \mathrm{E}(\pi))(p_A-p_B)
+v_i < 2(\bar{p} - \mathrm{E}(\pi_i))(p_A-p_B)
 \end{equation}
 
 where $\bar{p}= \frac{p_A + p_B}{2}$ is the average platform of the two parties.
 
-I take $v_i$ to be uniformly distributed on the interval $[\frac{2b-1}{2f},\frac{2b+1}{2f}]$. The parameter $b$ can be interpreted as the average preference for the policies of party $A$, while $f$ modulates how spread out the distribution is.
-
-This yields the following explicit expression for the aggregate vote share received by party A:
+I take $v_i$ to be uniformly distributed \footnote{This allows a simple analytical form for aggregate vote shares and also ensures that an explicit expression for the parties optimal policy can be found.} on the interval $[\frac{2b-1}{2f},\frac{2b+1}{2f}]$. The parameter $b$ can be interpreted as the average preference for the policies of party $A$, while $f$ modulates how spread out the distribution is. This means that the expectation of $v_i$ is $\frac{b}{f}$, its range is $\frac{1}{f}$ and its cumulative distribution function is $Prob(v_i < x) = \frac{1}{2} - b + fx$. Let us define the indicator function $\mathbbm{1}_{i}$ which takes the value one if voter $i$ votes for party $A$ and 0 otherwise, we can write for the expectation of this variable
 
 \begin{equation}
-s = \frac{1}{2}-b+2f(\bar{p} - \bar{\mathrm{E}(\pi)})(p_A-p_B)
+\mathrm{E}(\mathbbm{1}_{i}) = \frac{1}{2}-b+2f(\bar{p} - \mathrm{E}(\pi_i))(p_A-p_B)
 \end{equation}
 
-where $\bar{\mathrm{E}(\pi)}$ is the mean of $\mathrm{E}(\pi)$ in the population of voters.
+Now, we can calculate the expected share of votes received by party A, by first summing up the votes of all voters (or, due to the continuity assumption, integrate votes) and taking the expected value:
 
-Crucially, for this formula to hold we must assume that the distribution $v_i$ is spread out enough - so $f$ is small enough - so that the vote share remains between zero and one for any policy positions that might occur in the model. The restriction on the model parameter needed for this is
+\begin{align}
+\mathrm{E}(s_A) = \mathrm{E}\big(\int_0^1 \mathbbm{1}_{i} di\big) = \int_0^1 \mathrm{E}(\mathbbm{1}_{i}) di = \\ 
+\int_0^1 (\frac{1}{2}-b+2f(\bar{p} - \bar{\mathrm{E}(\pi_i)})(p_A-p_B)) di = \\
+\frac{1}{2}-b+2f(\bar{p} - \mathrm{E}(\pi))(p_A-p_B) 
+\end{align}
 
-The most extreme difference that can occur between party positions in this model is when one party caters to the preferences of the rational group of voters and the other to the credulous ones. Since rational voters are positioned at the true value of the state and credulous voters are at the value that the campaign announced, thus in equilibrium the distance between the two groups is equal to the bias in the campaign message. which is $\frac{\delta}{1-\alpha}$. This implies that the utility difference between the two parties is $\bigg(\frac{\delta}{1-\alpha}\bigg)^2$ which has to be smaller then the range of the distribution of fixed policies which is $\frac{1}{f}$ which implies the condition $\bigg(\frac{\delta}{1-\alpha}\bigg)^2 < \frac{1}{f}$. 
+where $\mathrm{E}(\pi) = \int_0^1 \mathrm{E}(\pi_i) di$ is the mean of $\mathrm{E}(\pi_i)$ in the population of voters.
 
-The parties do not know the value of $b$ and treat it as a random variable, they choose their policies to maximise/minimise the probability that the vote share of party A is greater then $\frac{1}{2}$.
+Due the assumption that there is a continuum number of voters, the law of large numbers implies that the expected vote share will be exactly realized. This yields the following explicit expression for the aggregate vote share received by party A:
 
 \begin{equation}
-b < 2f(\bar{p} - \bar{\mathrm{E}(\pi)})(p_A-p_B)
+s_A = \frac{1}{2}-b+2f(\bar{p} - \mathrm{E}(\pi))(p_A-p_B)
 \end{equation}
 
-Maximising/minimising the right hand side of this expression with respect to $p_A$ and $p_B$ yields $p_A = p_B = \bar{\mathrm{E}(\pi)}$ i.e. the parties choose to maximise the average expected optimal policy of the electorate.
+Crucially, for this formula to hold we must assume that the distribution $v_i$ is spread out enough so that the vote share remains between zero and one for any policy positions that might occur in the model. This implies that $(\bar{p} - \mathrm{E}(\pi))(p_A-p_B)$ (which is the difference between the average utility of the two parties) should lie in the range $[\frac{2b-1}{2f},\frac{2b+1}{2f}]$. To derive the exact parameter restriction needed for this, we first have to find out what policy positions the parties might want to take.
+
+The parties do not know the value of $b$ and treat it as a random variable with zero expected value, and they choose their policies to maximise/minimise the probability that the vote share of party A is greater then $\frac{1}{2}$.
+
+\begin{equation}
+b < 2f(\bar{p} - \mathrm{E}(\pi))(p_A-p_B)
+\end{equation}
+
+Maximising/minimising the right hand side of this expression with respect to $p_A$ and $p_B$ yields $p_A = p_B = \mathrm{E}(\pi)$ i.e. the parties choose to maximise the average expected optimal policy of the electorate \footnote{Choosing $\mathrm{E}(\pi)$ is the dominant strategy of both parties, so they will choose this value irrespective of the position that the other party takes. However, this result brakes down if the parameter restrictions on the distribution of $v_i$ are not met. In that case, the optimal policy depends on the position of the other party and there is no simple equilibrium (except for specific parameter values)}.
 
 The interest group has preferences given by
 
@@ -161,20 +207,20 @@ The interest group has preferences given by
 u_S = -(p - \pi^{*})^2
 \end{equation}
 
-where $\theta$ is the underlying state of the world (with a distribution that is supported on the whole real line) and $m(\theta)$ is the message sent in that state. I also assume that voters' ideal policy is $\pi^{*} = \theta$ whereas the ideal policy of the interest group is $\rho \theta + \delta$, i.e. a linear function of $\theta$. This allows for a range of different relationships between the interests of the group and the public. The parameter $\delta$ measures a constant conflict of interest between the group and the general public. The parameter $\rho$ on the other hand takes into account the fact that the way the ideal policy of the group and the public are related can also depend on the state of the world. 
+where $\pi^{*}$ is the bliss point of the interest group. I also assume that voters' ideal policy is $\pi = \theta$ whereas the ideal policy of the interest group is $\pi^{*} = \theta + \delta$, where $\theta$ is the underlying state of the world (whose distribution I shall specify later). This allows for a range of different relationships between the interests of the group and the public. The parameter $\delta$ measures a constant conflict of interest that is present in this communication game.
 
-\subsection{The baseline - Costless lying and fully rational electorate}
+\subsection{The baseline - Fully rational electorate}
 
-In the original model lying is costless and all voters are rational. In that case reporting a specific value of $\theta$ cannot be an equilibrium as described by Crawford and Sobel. Instead the equilibrium is reporting a range in which $\theta$ is. These equilibria remain valid after the introduction of the naive voters. However there is a new class of equilibria where the group reports a false value of $\theta$. If the strategy of the group is one-to-one then the rational voters can decode the true value of $\theta$ from its message in equilibrium. The naive agents on the other hand take the reported value to be the true value. Thus, the implemented policy will be a  weighted average of the announced policy and the optimal policy.
+In the original model of GH all voters are rational. In that case reporting a specific value of $\theta$ cannot be an equilibrium as described by Crawford and Sobel. Instead the equilibrium is reporting a range in which $\theta$ is. These equilibria remain valid after the introduction of the naive voters. \footnote{If the interest group reveals a partition I assume that the credulous voters update their belief to be the conditional expectation of the state. If the group reveals partitions truthfully this behavior is identical to the behavior of rational voters.} However there is a new class of equilibria where the group reports a false value of $\theta$. If the strategy of the group is one-to-one then the rational voters can decode the true value of $\theta$ from its message in equilibrium. The naive agents on the other hand take the reported value to be the true value. Thus, the implemented policy will be a  weighted average of the announced policy and the optimal policy.
 
-First I describe the pooling equilibria arising when all voters are fully rational. In this case the campaign reveals a subset of the state space in which the true state is. CS describe several of these equilibria: As this case is not the main focus of the model, I will only present the simplest case, in which the state space is partitioned into two sets by the campaign. If the state is below some cutoff value $\theta^{*}$ then the interest group announces message A and if the state is above this value it announces message B. After the announcement the voters update their beliefs about the value of $\theta$ using the Bayes rule. Given that the prior distribution of $\theta$ is uniform, we can calculate the posterior expectations given both messages as a function of the cutoff point:
+First I describe the pooling equilibria arising when all voters are fully rational. For simplicity, I assume here that the prior distribution of $\theta$ is uniform on the $[0,1]$ interval. \footnote{Almost all applications of the Crawford Sobel model assume that the underlying state is uniformly distributed. This is because finding analytical solutions for the partition equilibria is not possible with most other distributions.} In this case the campaign reveals a subset of the state space in which the true state is and voters update their expectation of the optimal policy based on the campaign. \footnote{The restriction that is needed on the distribution of the  preference shocks $v_i$ to ensure that our formula for the vote share remains valid in this case is $\frac{2b-1}{2f} < 0$ and $\frac{2b+1}{2f} > 1$.}  CS describe several of these equilibria: I will first present a simple case, in which the state space is partitioned into two sets by the campaign. If the state is below some cutoff value $\theta^{*}$ then the interest group announces message A and if the state is above this value it announces message B. After the announcement the voters update their beliefs about the value of $\theta$ using the Bayes rule. Given that the prior distribution of $\theta$ is uniform, we can calculate the posterior expectations given both messages as a function of the cutoff point:
 
 \begin{align}
 \mathrm{E}(\theta \vert m = A) = \frac{\theta^{*}}{2} \\
 \mathrm{E}(\theta \vert m = B) = \frac{1}{2} + \frac{\theta^{*}}{2}
 \end{align}
 
-To completely characterize this equilibrium we have to find the value of $\theta^{*}$. This has the property that if $\theta = \theta^{*}$ then the interest group is indifferent between sending message A and message B. 
+To completely characterize this equilibrium we have to find the value of $\theta^{*}$. This has the property that if $\theta = \theta^{*}$ then the interest group is indifferent between sending message A and message B
 
 \begin{equation}
 U_S(\theta = \theta^{*}, a = \mathrm{E}(\theta \vert m = A)) = U_S(\theta = \theta^{*}, a = \mathrm{E}(\theta \vert m = B))
@@ -183,22 +229,24 @@ U_S(\theta = \theta^{*}, a = \mathrm{E}(\theta \vert m = A)) = U_S(\theta = \the
 which implies
 
 \begin{equation}
-\rho \theta^{*} + \delta - \frac{\theta^{*}}{2} = \frac{1}{2} + \frac{\theta^{*}}{2} - \rho \theta^{*} - \delta
+ \theta^{*} + \delta - \frac{\theta^{*}}{2} = \frac{1}{2} + \frac{\theta^{*}}{2} - \theta^{*} - \delta
 \end{equation}
 
-i.e. the distance between the implemented policy when the message is A and when the message is B to the true bliss point of the interest group of $\rho \theta^{*} + \delta$ should be equal. Solving this yields:
+i.e. the distance between the implemented policy when the message is A and when the message is B to the true bliss point of the interest group of $\theta^{*} + \delta$ should be equal. Solving this yields:
 
 \begin{equation}
-\theta^{*} = \frac{\rho + 4\delta}{4-\rho}
+\theta^{*} = \frac{1}{2} - 2\delta
 \end{equation}
 
-In general, multiple equilibria are possible each with different number of partitions on the state space. In order to meaningfully compare the baseline case with the model with credulous voters there should be a focus on a specific equilibrium which can be used as a basis for comparison. This naturally raises the question of equilibrium selection in CS type cheap talk games. As the main motivation for the comparative analysis here is to study the welfare effects of voter credulity welfare comparison of the different equilibria of the CS game is a natural first step. From a welfare perspective, it is intuitively clear, that the most informative equilibrium is the most efficient one as it Pareto dominates all other possible equilibria. Even though this in itself might give us some justification to pay special attention to the most informative equilibrium, Pareto dominance itself is not a satisfactory method of equilibrium selection as it does not provide any justification as to why a particular outcome will be realized. Chen et al. however provide arguments that show that under under certain small perturbations of the CS game only the most informative equilibrium survives. Thus, as there is justification to restrict attention to this case, I will now characterize the equilibrium with the finest partition possible. The indifference condition above can be generalized for multiple partitions which are separated by cutoff values $\theta_i$ for $i=1...N(\delta)$:
+We can see that the first partition is smaller then the second one as the interest group has a preference for larger values of $\theta$. The property that partitions have increasing size remains true in the more informative equilibria as well.
+
+In general, multiple equilibria are possible each with different number of partitions on the state space. In order to meaningfully compare the baseline case with the model with credulous voters there should be a focus on a specific equilibrium which can be used as a basis for comparison. This naturally raises the question of equilibrium selection in CS type cheap talk games. As the main motivation for the comparative analysis here is to study the welfare effects of voter credulity welfare comparison of the different equilibria of the CS game is a natural first step. From a welfare perspective, it is intuitively clear, that the most informative equilibrium is the most efficient one as it Pareto dominates all other possible equilibria. Even though this in itself might give us some justification to pay special attention to the most informative equilibrium, Pareto dominance itself is not a satisfactory method of equilibrium selection as it does not provide any justification as to why a particular outcome will be realized. Chen et al. (2008) \cite{chen2008selecting} however provide arguments that show that under under certain small perturbations of the CS game only the most informative equilibrium survives. Thus, as there is justification to restrict attention to this case, I will now characterize the equilibrium with the finest partition possible. The indifference condition above can be generalized for multiple partitions which are separated by cutoff values $\theta_i$ for $i=1...N(\delta)$:
 
 \begin{equation}
 \theta+\delta - \frac{\theta_i+\theta_{i-1}}{2} = \frac{\theta_{i+1}+\theta_i}{2}-\theta-\delta
 \end{equation}
 
-which implies the following difference equation for the cutoff values $\theta_i$:
+which implies the following second order difference equation for the cutoff values $\theta_i$:
 
 \begin{equation}
 \theta_{i+1} = 2\theta_{i} - \theta_{i-1} + 4\delta
@@ -213,59 +261,144 @@ Taking $\theta_0 = 0$ we can derive the solution to this second order difference
 Now, the largest value $N(\delta)$ can take is the largest integer $i$ such that $2i(i-1)\delta < 1$ which is
 
 \begin{equation}
--\frac{1}{2}+\frac{1}{2}\bigg( 1+\frac{2}{\delta} \bigg)^{\frac{1}{2}}
+\bigg[-\frac{1}{2}+\frac{1}{2}\bigg( 1+\frac{2}{\delta} \bigg)^{\frac{1}{2}}\bigg]
 \end{equation}
 
+\begin{figure}
+\includegraphics{partitions.PNG}
+\caption{Maximal number of partitions for increasing bias}
+\floatfoot{As the bias of the interest group moves away from zero the informativeness of the equilibrium drops fast. When $\delta > \frac{1}{4}$ only the babbling equilibrium remains.}
+\end{figure}
+
+where brackets $[\cdot]$ denote the ceiling function i.e. the smallest integer larger then the argument.
 
 It can be seen that $N(\delta)$ is decreasing in $\delta$ the measure of disagreement between the interest group and the public. This has an intuitive interpretation: The smaller the conflict of interest the more information can be transmitted - since the the value of $\delta$ is common knowledge and here we assume that all voters are rational this result can also be conceptualized as describing the level of trust in political communication. If an interest group is known to have a strong bias it will be able to convey less information to the public then a group whose interest are more aligned to the public interest. In the limit, as $\delta \rightarrow \infty$ the largest value $N(\delta)$ can take is 1 i.e. only the babbling equilibrium remains and no information can be transmitted.  
 
 
 \subsection{Dictatorship}
 
-We see that in both cases, when the electorate is fully rational informational transmission is difficult and cannot be perfect. This can be taken as a formalization of the fact that democratic decision making - where uninformed voters make decisions on questions which are presented to them by biased politicians and interest groups - has inherent shortcomings. Namely, perfectly rational voters do not trust politicians because they are fully aware of their bias and that if they were to believe a campaign message the politician would have an interest to bias the campaign. There is however a simple way however to sidestep the complexities of democratic decision making: Instead of holding elections citizens might decide to upend democracy and simply transfer leadership to the interest group and ask it to choose the policy according to its own interest. An alternative, and arguably more plausible, interpretation of such a situation is that the interest group has enough resources - both material and military - to suppress democracy and maintain its own rule by force. It is clear that in this case the interest group will fare better as it can implement the policy that is its own bliss point. However, in certain cases the voters welfare will also increase. The intuition for this result is simple: Consider a case when $\rho = 1$ and $\delta$ is a very small number. Then, the conflict of interest between the campaigner and the public is infinitesimal, and yet, the set set of feasible equilibria is the one described above: even when the partition of the state space is the finest, a significant amount of information is lost due to the lack of trust between the politician and the voter. On the other hand, with the right to choose a policy delegated to the interest group, the optimal policy implemented will infinitesimally close to the optimal policy of the public. In fact, we can calculate, the threshold level of bias which will make a dictatorial decision making rule Pareto dominate the democratic mechanism.
+We see that in both cases, when the electorate is fully rational informational transmission is difficult and cannot be perfect. This can be taken as a formalization of the fact that democratic decision making - where uninformed voters make decisions on questions which are presented to them by biased politicians and interest groups - has inherent shortcomings. Namely, perfectly rational voters do not trust politicians because they are fully aware of their bias and that if they were to believe a campaign message the politician would have an interest to bias the campaign. There is however a simple way to sidestep the complexities of democratic decision making: Instead of holding elections citizens might decide to upend democracy and simply transfer leadership to the interest group and ask it to choose the policy according to its own interest. An alternative, and arguably more plausible, interpretation of such a situation is that the interest group has enough resources - both material and military - to suppress democracy and maintain its own rule by force. It is clear that in this case the interest group will fare better as it can implement the policy that is its own bliss point. However, in certain cases the voters welfare will also increase. The intuition for this result is simple: Consider a case when $\delta$ is small. Then, the conflict of interest between the campaigner and the public is infinitesimal, and yet, the set set of feasible equilibria is the one described above: even when the partition of the state space is the finest, a significant amount of information is lost due to the lack of trust between the politician and the voters. On the other hand, with the right to choose a policy delegated to the interest group, the optimal policy implemented will be very close to the optimal policy of the public.  In fact, we can calculate, the threshold level of bias which will make a dictatorial decision making rule Pareto dominate the democratic mechanism.
+
+As we shall see, there is a strong analogy between delegating the decision to the interest group and the presence of credulous voters. I discuss this similarity further in the section of welfare.
 
 \subsection{Partially credulous electorate}
 
-I first consider a simplified version of the model where lying is costless. The interest group can have an effect on the implemented policy just by countlessly announcing a value. Thus, we expect that the group will announce an extreme enough policy so as to make the realized policy equal to its bliss point.
+I now assume that a fraction $\alpha$ of voters is credulous meaning that it believes the campaign message. I also assume here that the prior distribution of $\theta$ is supported on the whole real line (or at least that it is unbounded in the direction of the group's bias) This is necessary to ensure that there is no case when the ideal policy of the group lies outside of the set of possible states.
 
-In this case, the utility function of the group is:
+The interest group can have an effect on the implemented policy just by costlessly announcing a value. Thus, we expect that the group will announce an extreme enough policy so as to make the realized policy equal to its bliss point.
 
-\begin{equation}
-u_S = -(p - \pi^{*})^2
-\end{equation}
-
-A separating strategy for the group is a function $m = \mu(\theta)$ that assigns a message $m$ to every state. I assume that $\mu$ is one-to-one. I denote the fraction of naive voters by $\alpha$. Naive voters update their bliss point to be $m$ whereas rational voters infer that it is in fact $\mu^{-1}(m)$ Substituting these into the utility of the group:
+A separating strategy for the group is a function $m = \mu(\theta)$ that assigns a message $m$ to every state. I assume that $\mu$ is one-to-one. Naive voters update their bliss point to be $m$ whereas rational voters infer that it is in fact $\mu^{-1}(m)$ Substituting these into the utility of the group:
 
 \begin{equation}
-u_S = -(\alpha m + (1-\alpha)\mu^{-1}(m) - (\rho \theta + \delta))^2
+u_S = -(\alpha m + (1-\alpha)\mu^{-1}(m) - ( \theta + \delta))^2
 \end{equation}
 
 We want to find a function $\mu$ such that for any value of $\theta$ utility is maximal. The first order condition yields a differential equation in $\mu$:
 
 \begin{equation}
-(\alpha m + (1-\alpha)\mu^{-1}(m) - (\rho \theta + \delta))(\alpha + (1-\alpha)\mu^{-1}(m)') = 0
+(\alpha m + (1-\alpha)\mu^{-1}(m) - (\theta + \delta))(\alpha + (1-\alpha)(\mu^{-1}(m))') = 0
 \end{equation}
 
 Substituting $m=\mu(\theta)$ and $\mu^{-1}(m) = \theta$:
 
 \begin{equation}
-(\alpha \mu(\theta) + (1-\alpha - \rho) \theta - \delta)(\alpha + (1-\alpha)\frac{1}{\mu'(\theta)}) = 0
+(\alpha (\mu(\theta) -  \theta) - \delta)(\alpha + (1-\alpha)\frac{1}{\mu'(\theta)}) = 0
 \end{equation}
 
 The solution to this is
 
 \begin{equation}
-m = \mu(\theta) = \frac{\delta + (\alpha+\rho-1)\theta}{\alpha}
+m = \mu(\theta) = \theta + \frac{\delta}{\alpha}
 \end{equation}
 
-It can be seen that the message is linearly related to the underlying state. It is also clear that in any state the group indeed reaches its bliss point. When $\rho = 1$ the group always lies a constant amount. Otherwise, the magnitude of the lie depends on the state.
+It can be seen that the message is linearly related to the underlying state. It is also clear that in any state the group indeed reaches its bliss point. The interest group overstates the size of its bias in order to move the average belief sufficiently. \footnote{The distance between credulous and rational voters is $\frac{\delta}{\alpha}$ which implies that the range of $v_i$ should satisfy $\frac{2b-1}{2f} < -\big(\frac{\delta}{\alpha}\big)^2$}
+
+\subsection{A numerical example}
+
+Suppose that $\alpha = 0.1$ and $\delta = 0.05$. To satisfy the constraint on the distribution of fixed policies, Since $\big(\frac{\delta}{\alpha}\big)^2 = 0.25$ I require the range of $v_i$ to include the range $[-0.25,025]$. To satisfy this constraint I take $b = 0.1$ and $f=1$, which implies that the range of $v_i$ is $[-0.4,0.6]$. Suppose that the realization of the state is $\theta = 0$. Then the bliss point of the interest group is $\theta + \delta = 0.05$. In order to perfectly implement its preferred policy, the group has to announce a message which will mislead the credulous voters just enough so as to make the average opinion equal to its bliss point. For this end, it uses the strategy that I have derived earlier: It announces $m = \theta + \frac{\delta}{\alpha} = 0.5$, since rational voters infer back the true value of the state from the message, the average posterior expectation of the electorate is indeed $(1-\alpha)\theta + \alpha m = \delta = 0.05$.
+
+\begin{figure}
+\includegraphics{util.PNG}
+\caption{Utility of the two voter groups}
+\floatfoot{The utility functions of the two groups weighted by their size determine the vote shares that the parties will receive}
+\end{figure}
+
+Now, two political parties compete to win the election. Suppose that their political advisor first suggests that they ignore the opinion of the credulous minority and both announce $p=\theta$ as their policy. Given that their positions are the same the vote shares they receive will be determined by their fixed policies, in particular the vote share of party A will be $s_A = 0.5-b = 0.4$. Now consider party A moving $\epsilon$ amount in the direction of the credulous voters in the pliable policy space. Among the rational voters this move will lead to decreasing popularity. Specifically, their utility from the pliable policy of party A is now $u_R(p_A)=-\epsilon^2$ while from party B it is $u_R(p_B)=0$. This leads to a total vote share for part A among rational voters of $s_{A,R} = 0.5-b+f(u_R(p_A)-u_R(p_B)) = 0.4-\epsilon^2$. Thus, party A has lost $\epsilon^2$ votes to party B. Now consider the credulous voters who view $p=0.5$ as optimal: Their utility from the new policy of party A is $u_C(p_A) = -(0.5-\epsilon)^2$ and from the original policy of party B $u_C(p_A) = -(0.5^2) = -0.25$. Thus, among the credulous voters the party increased its vote share by $-0.25-(0.5-\epsilon)^2 = \epsilon-\epsilon^2$. The total amount of change in the share of votes from its move towards the credulous voters is given by the weighted average of the two effects: $\alpha (\epsilon -\epsilon^2)-(1-\alpha)\epsilon^2=0.1\epsilon-\epsilon^2$  which is clearly positive for small values of $\epsilon$ showing that moving a little bit away from the position of rational voters pays off for the party. We can also find the optimal amount that the party should move. Differentiating the expression for the total vote with respect to $\epsilon$ we obtain $ \alpha (1-2\epsilon)=2(1-\alpha)\epsilon$ i.e. at the optimum the marginal vote gain from the credulous voters should be equal to the marginal loss from the rational voters. Solving this yields $\epsilon = 0.05$ which is indeed equal to the bias of the interest group as we expected. The welfare of the group is therefore $0$ (the highest it can be) and the welfare of the public is $-\delta^2 = -0.0025$.
+
+\begin{figure}
+\includegraphics{mutil.PNG}
+\caption{Marginal utility of the two voter groups}
+\floatfoot{Because the credulous voters are farther away from the ideal of the interest group they are more responsive to policy changes}
+\end{figure}
+
+We can also compare this with the case with $\alpha = 1$. For the CS equilibrium I will continue to assume that the prior of $\theta$ is uniformly distributed on $[0,1]$. We can obtain the number of partitions in the most informative equilibrium as $\bigg[-\frac{1}{2} + \frac{1}{2}\sqrt{1+\frac{2}{b}}\bigg] = 3$. For any number of partitions, we can calculate the expected welfare using (34). In the babbling equilibrium, the welfare is -$\frac{1}{12}$. We can see that even with the most informative equilibrium the presence of the credulous voters increases the welfare of the public.
+
+
+\section{Welfare}
+
+Assessing the welfare implications of credulity requires a comparison of the model of this paper with the baseline of the CS model. It is important to note that voters have preferences not only over pliable policies which are the the main concern here but also over fixed policies. On average however utility differences due to these random preference shocks do not have an impact on the welfare of the electorate thus I shall concentrate on the effects of the pliable policy positions on welfare on the average voter (beside considering the welfare of the interest group as well). As I have noted before the CS model has multiple equilibria which requires us to either consider all the possible equilibria as benchmarks separately or to choose a criterion which makes some equilibria more plausible then others. I shall pursue the latter route and analyze the most informative equilibrium of the CS game and then contrast it with the equilibrium with credulity.
+
+It is also important to point out that there is some arbitrariness in this welfare comparison. When credulous voters are present, the distribution of $\theta$ should be unbounded, but the outcome itself is independent of the shape
+of the prior. On the other hand, when all voters are rational the support of the prior of $\theta$ can either be bounded or unbounded, however, in practice for most common unbounded distributions there is no analytical solution for the partition equilibria. Nevertheless, we can take the uniform distribution to be an approximation to distributions with unbounded support which have most of their probability mass concentrated in the range of the uniform distribution.
+
+The realised utility that the players obtains of course is a function of $\theta$ however we can consider the ex ante expected utility of the players by taking the expectation of the ex post utility according to the distribution of $\theta$. In the baseline case, the utility of the average voter for a given value of $\theta$ is given by the negative variance of the signal given the message
+
+\begin{equation}
+\mathrm{E}(U(\theta) \vert m) = -\mathrm{E}\bigg(\theta - \frac{\theta_{i-1}+\theta_i}{2}\bigg)^2 \bigg\vert \theta \in [\theta_{i-1}, \theta_i] \bigg) = -\frac{1}{\theta_{i}-\theta_{i-1}} \int_{\theta_{i-1}}^{\theta_i} \bigg(\theta - \frac{\theta_{i-1}+\theta_i}{2}\bigg)^2 d\theta
+\end{equation}
+
+Before going on to analyze the most informative equilibrium it is also useful to see what happens at the other extreme. When all voters are rational there is a babbling equilibrium when the voters completely ignore the campaign and no information is transmitted. In this case the implemented policy is the unconditional expectation of $\theta$ which in this case is $\frac{1}{2}$. The expected utility from this policy
+
+\begin{equation}
+\mathrm{E}\bigg(\theta-\frac{1}{2}\bigg)^2 = \int_0^1 \bigg(\theta-\frac{1}{2}\bigg)^2 d\theta = \frac{1}{12}
+\end{equation}
+
+The bias that will make welfare equal to this level when some voters are credulous is $\frac{1}{\sqrt{12}}$. We also see that the bias has to be smaller then $\delta = \frac{1}{4}$ in order for equilibria with at least two partitions to be possible. This implies that when only the babbling equilibrium is possible a fully rational electorate is optimal when $\delta > \frac{1}{\sqrt{12}}$.
+
+Now, consider the most informative equilibrium. First, substituting into the formula for $\theta_i$ $\theta_N=1$ we obtain
+
+\begin{equation}
+\theta_1 = \frac{1-2N(N-1)\delta}{N}
+\end{equation}
+
+Substituting back into the formula for $\theta_i$ we obtain
+
+\begin{equation}
+\theta_i = \frac{i}{N} + 2\delta i(i-N)
+\end{equation}
+
+and 
+
+\begin{equation}
+\theta_i - \theta_{i-1} = \frac{1}{N}+2\delta(2i-N-1)
+\end{equation}
+
+Given that the distribution of $\theta$ is uniform we can calculate the unconditional expectation of the average voter utility which is equal to the negative total residual variance given the partition
+
+\begin{align}
+\mathrm{E}(\mathrm{E}(U(\theta) \vert m)) = -\sum_i^N \int_{\theta_{i-1}}^{\theta_i} \bigg(\theta - \frac{\theta_{i-1}+\theta_i}{2}\bigg)^2 d\theta = \\
+\frac{1}{12}\sum_i^N (\theta_i - \theta_{i-1})^3 = \frac{1}{12} \sum_i^N \bigg( \frac{1}{N} + 2\delta(2i-N-1) \bigg)^3= \\
+-\bigg(\frac{1}{12N^2} + \frac{\delta^2(N^2-1)}{2}\bigg)
+\end{align}
+
+\begin{figure}
+\includegraphics{comp.PNG}
+\caption{Expected welfare under rational and credulous electorate}
+\floatfoot{At the bias levels where informative equilibria are possible in the fully rational case, welfare is decreasing, in the babbling equilibrium welfare is constant. In all cases when informative equilibria are possible the presence of credulous voters is Pareto improving}
+\end{figure}
+
+
+On the other hand when the interest group can perfectly implement its policy it is clear that voter welfare will be $-\delta^2$ with probability one. Using these formulas we can calculate the welfare in the most informative equilibrium for all levels of $\delta$. In Figure 4. it can be clearly seen that the threshold level of $\frac{1}{\sqrt{12}}$ is valid not just for babbling equilibria but for all equilibria.
+
+
+\section{Extensions}
 
 \subsection{Costly lying with fully rational electorate}
 
-Although the case when both credulous voters and lying costs are present is fairly involved, we can still gain some insights into how lying costs affect the campaign by analyzing them with a fully rational electorate. As it turns out, costly lying alone can induce separating a equilibrium in this game. For simplicity, here too I take $\rho = 1$ The objective function in this case is
+Although the case when both credulous voters and lying costs are present is fairly involved, we can still gain some insights into how lying costs affect the campaign by analyzing them with a fully rational electorate which permits an analytical solution. As it turns out, costly lying alone can induce separating a equilibrium in this game. The objective function in this case is
 
 \begin{equation}
--(\mu^{-1}(m)-(\theta + \delta)) - k (m -\theta)
+U_S = -(\mu^{-1}(m)-(\theta + \delta)) - k (m -\theta)^2
 \end{equation}
 
 The first order condition for this problem is
@@ -274,51 +407,97 @@ The first order condition for this problem is
 \delta-\mu'(\theta) k(\mu(\theta) - \theta) = 0
 \end{equation}
 
-Defining the new variables $v(\theta)=\mu(\theta)-\theta$ and $c=\frac{\delta}{k}$ such that $v'(\theta)=\mu'(\theta)-1$
+To solve this, I conjecture that the solution is of the form $\mu(\theta) = \theta + c$ where $c$ is a constant size of the lie to be determined. Substituting back into the original formula, we find $c = \frac{\delta}{k}$ meaning that
 
 \begin{equation}
-v'(\theta) = \frac{c-v(\theta)}{v(\theta)}
+\mu(\theta) = \theta + \frac{\delta}{k}
 \end{equation}
 
-Taking $\mu(0) = 0$ as a first order condition, this differential equation has the solution
+This result is slightly counterintuitive. Fully rational voters can perfectly infer back the true state and lying is costly. The group cannot deceive anyone but it still lies despite the cost. Why doesn't the group announce the true value, to minimize its lying costs? Such a situation would be beneficial to the interest group but it is not an equilibrium. If the campaign of the group would be truthful, in equilibrium voters would believe it without adjustment. However, the group would have an incentive to lie a little bit as with a small lie the benefit of deceiving the voters outweighs the cost of lying. In equilibrium, the size of the lie is exactly such that the marginal utility gain from deceiving voters equals the marginal cost of increasing the size of the lie.
+
+Given that the voters believe that the group has strategy $\mu(\theta) = \theta + \frac{\delta}{k}$ we can directly verify that the interest group cannot improve upon this outcome by deviating:
 
 \begin{equation}
-\mu(\theta) = \theta-\frac{\delta}{k}\log \frac{\delta}{k}
+U_S=-(m-\frac{\delta}{k}-(\theta+\delta))^2 - k(m-\theta)^2
 \end{equation}
+
+Minimizing this with respect to $m$ we indeed obtain $m = \theta + \frac{\delta}{k}$ so given the belief of voters the interest group cannot profitably deviate from this strategy.
+
+As to welfare, rational voters attain their bliss point in this situation. 
+
+The interest group has loss equal to $-\delta^2$ due to the fact that the implemented policy will be $\theta$. The cost of lying is $\frac{\delta^2}{k}$, so in total the welfare of the group is $-\delta^2\frac{k+1}{k}$. The intuition that the interest group would be better off if it could commit itself to revealing the truth was indeed correct. Less intuitively, the welfare of the group is decreasing in the lying cost. If lying is cheap it will lie more, but this increases lying costs and does not bring any benefit. Intuitively, higher lying costs help the group commit to telling the truth (approximately).
+
+\subsection{Partially credulous electorate with lying costs}
+
+Perhaps the most realistic case to consider is when both credulity and lying costs are present. In this case, the group has the objective
+
+\begin{equation}
+U_S = -((1-\alpha)\mu(m)^{-1}+\alpha m - (\theta + \delta))^2 - k(m-\theta)^2
+\end{equation}
+
+Which leads to the following first order condition
+
+\begin{equation}
+-((1-\alpha)\mu(m)^{-1}+\alpha m - (\theta + \delta) )((1-\alpha)((\mu(m)^{-1})'+\alpha)- k(m-\theta)
+\end{equation}
+
+Imposing the criterion that $m = \mu(\theta)$ yields
+
+\begin{equation}
+(\alpha(\mu(\theta)-\theta)-\delta)(1+\alpha(\mu'(\theta)-1))-k\mu'(\theta)(\mu(\theta)-\theta) = 0
+\end{equation}
+
+Unfortunately, no simple analytical solution exists to this differential equation. Since analytical expressions are crucial for comparative statics and welfare analysis, I shall not discuss this case further despite its realism.
 
 \subsection{Partially credulous electorate in a representative voter setting}
 
 The result that we have obtained in the previous section does not hinge on the assumption that parties cater to the tastes of the average voter. Here I show that communication takes the same shape in a representative voter setting. However, there are significant implications for welfare that differ from the conclusions of the previous section.
 
-Assume that contrary to the assumptions of the previous section the interest group wants to cater to a representative voter. A possible interpretation of this representative voter is an elected official who wants to maximize the welfare of her voters but might herself be credulous. Of course,this interpretation raises at least two questions regarding this extension:
+Assume that contrary to the assumptions of the previous section that the interest group wants to cater to a representative voter. A possible interpretation of this representative voter is an elected official who wants to maximize the welfare of her voters but might herself be credulous. As opposed to the discussion in the previous sections, in this setting the official is chosen without announcing a pliable policy \footnote{Alternatively, the politician cannot commit to the announced pliable policy} by an election or another mechanism. By electing the representative, voters fully entrust the elected representative with the decision to choose the level of the pliable policy according to her best judgment to maximize their welfare. However, before the representative makes a decision it receives a message from the lobbyists of the interest group.
+
+Of course,this interpretation raises at least two questions regarding this extension:
 
 First whether being elected as a representative is independent of credulity. It might be argued that an elected representative might be less credulous then a randomly chosen person from the total population. However, as turns out having a representative voter has other effects on the outcome then the fact that it might decrease the probability of credulity and the purpose of this section is primarily to shed light on this effect.
 
-Second, it 
+Second, whether the voters are able to ensure that their representative is fully committed to maximize social welfare i.e. that the goals of the representative indeed coincide with the goals of the general public. I will here ignore incentive problems and assume that the representative perfectly represents the public.
 
 Assume that this representative voter is credulous with probability $\alpha$ and rational with probability $1-\alpha$. The objective function of the interest group is
 
 \begin{equation}
--(1-\alpha)(\mu^{-1}(m)-(\rho \theta +\delta))^2 - \alpha((m-(\rho \theta +\delta))^2
+U_S = -(1-\alpha)(\mu^{-1}(m)-(\theta +\delta))^2 - \alpha((m-(\theta +\delta))^2
 \end{equation}
 
 This yields the same solution as the problem in the previous case did. The first order condition is, after some manipulation:
 
 \begin{equation}
-(1-\alpha)b-\alpha(\mu(\theta) - \rho \theta - \delta) \mu'(\theta) = 0
+(1-\alpha)\delta-\alpha(\mu(\theta) - \theta - \delta) \mu'(\theta) = 0
 \end{equation}
 
 which has the solution:
 
 \begin{equation}
-m = \mu(\theta) = \frac{\delta + (\alpha+\rho-1)\theta}{\alpha}
+m = \mu(\theta) = \theta + \frac{\delta}{\alpha}
 \end{equation}
 
-Although the obtained optimal campaign strategy has the same form here as in the original case, the welfare implications here are quite different and will be explored in more detail in later sections.
+Although the obtained optimal campaign strategy has the same form here as in the original case, the welfare implications here are quite different. In particular when the full electorate makes a decision the interest group knows exactly the level of credulity in its audience and this allows it to perfectly manipulate credulous voters. When the group has to communicate its message to a representative who was chosen from the electorate by a mechanism which is independent of credulity, it does not know whether it faces a credulous or a rational agent. As a consequence, the group can implement its preferred policy on average. As the group is risk averse, it is worse off due to this uncertainty. Its expected welfare is given by
 
-\bigskip
+\begin{equation}
+\mathrm{E}(U_S) = -(1-\alpha)\delta^2 - \alpha\bigg(\frac{\delta}{\alpha} - \delta \bigg)^2 = -\delta^2 \bigg(\frac{1}{\alpha} - 1 \bigg)
+\end{equation}
 
-\section{Discussion}
+We can see that lobbying to a single person acting on behalf of all voters is worse for the interest group even if the representative is less likely to believe its message. In fact, the group can only achieve the same utility level as when it communicates directly to voters when the representative is credulous for sure. On the other hand, as $\alpha$ approaches 0 the expected welfare of the group diverges to minus infinity.
+
+The voters achieve their ideal policy if their representative is rational. On the other hand, if the representative is credulous they obtain utility $-\big(\frac{\delta}{\alpha} \big)^2$. Their expected welfare is thus
+
+\begin{equation}
+\mathrm{E}(U_V)=-\alpha \bigg(\frac{\delta}{\alpha} \bigg)^2 = -\frac{\delta^2}{\alpha}
+\end{equation}
+
+Thus, voters are also worse off ex ante. In fact, even if the probability of credulousness for the representative is smaller then its incidence in the general population (so the selection mechanism for the representative manages to filter out some credulous individuals) the electorate is still better off voting for parties that are committed to their policies.
+
+%\bigskip
+
+\section{Limitations and robustness checks}
 
 The world of economics and politics is extremely complex and ever changing and in reality every election should be looked upon as a unique event different from any previous perhaps similar events. This type of approach can be useful in understanding the peculiarities of political life but is inadequate for understanding the common patterns of that connect seemingly disparate events. However, generality comes at the cost of having to ignore many crucial factors that should definitely be taken into account if one is to understand social phenomena in real life. The use of mathematics too, brings its own trade offs with it. What is gained in clarity and logical consistency might be lost when the mathematical nature of the problem restricts the direction of investigation.
 
@@ -337,9 +516,11 @@ In the case of perfectly rational electorate, the introduction of an interest gr
 \subsection{Bounded state and message space}
 
 An important technical question in this model - which nevertheless has fundamental implications for the conclusions - is whether the message space is bounded or unbounded. The reason that this assumption is so important is that it is the unboundedness of the message space that allows the interest group to shift the posteriors of the credulous voters as much as it likes. Although it is not clear at first sight, how well this assumption describes reality, introducing a bounded message space leads to a breakdown of the simple equilibrium presented earlier. It is clear that when the message space is bounded (and equal to the state space) the interest group cannot always implement its desired policy as the message that might be needed for this might be too extreme. On the other hand, we might conjecture an equilibrium where the interest group can still perfectly implement its desired policy on a certain subset of the state space and sends a pooling message outside that subset. Such an equilibrium would arise because when the true state is so close to the boundary that the groups optimal policy lies outside the state space. Intuitively, the group would have to announce a policy exactly on the boundary of the state space as this would take the realized policy the closest to its bliss point.
-Other topics to cover:
+In such a setting, the strategy of the group is no longer invertible thus rational voters cannot find out the true state. Then the rational voters should update their belief to be at the conditional expectation of the states from which a boundary message is sent. 
 
-Median voter vs GH framework
+\subsection{Credulous voters in a median voter framework}
+
+In a simple median voter settings my result that even a minority of credulous voters might be enough for the interest group to perfectly implement its preferred policy would cease to hold. In a very simple framework when there is no random dispersion the group can perfectly implement its preferred policy iff $\alpha > \frac{1}{2}$. A more complex framework leads to a slightly different result. Suppose that voters have their political position given by $\pi_i + u_i$ where $\pi$ is their posterior expectation of the optimal policy with prior expectation (shared by all voters) equal to $0$ and $u_i$ is a preference shock uniformly distributed on the interval $[\frac{1}{2}, \frac{1}{2}]$. Voters choose to vote for the party that is closer to their own position. In contrast to the main model of this paper, here voting is deterministic which changes the results. We continue to assume that a share $\alpha$ of voters is credulous and that being credulous is independent of the taste shock. This implies that credulous voters are uniformly distributed along the policy spectrum. If $\alpha=0$, so all voters are rational, for any campaign all voters update their posterior the same way and because our assumed distribution for the taste shock is symmetric the median policy is equal to this posterior expectation and thus the same CS type analysis applies as before. On the other hand, if some voters are credulous, the campaign can shift the credulous voters thus changing the shape of the distribution. Now consider, the highest policy that any campaign can achieve. Contrary to the previous case, making credulous voters have more extreme opinions does not help in shifting the realized policy outcome. If the credulous voters are shifted to an arbitrarily high position (assuming that the interest group has a positive bias) a party can still win by announcing the median voter's favorite policy. Since we have assumed $\alpha < \frac{1}{2}$ this voter is rational and has the policy position $p=\theta -\frac{1}{2}+\frac{1}{2(1-\alpha)}$. Thus a campaign can implement any policy in the range $[\theta+\frac{1}{2}-\frac{1}{2(1-\alpha)}, \theta-\frac{1}{2}+\frac{1}{2(1-\alpha)}]$ i.e. it can implement its preferred policy if $\vert \delta \vert < \frac{1}{2(1-\alpha)}$. One could ask, what happens if $\delta$ lies outside this range? Suppose this is the case, and the interest group follows the strategy of announcing $\theta + X$ where $X$ is an arbitrary large number. This will lead to the previously discussed outcome of $p=\frac{1}{2(1-\alpha)}$ and given the beliefs of rational voters the group cannot do better, thus is is indeed an equilibrium.
 
 Imperfectly informed politicians
 
@@ -349,32 +530,64 @@ potentially honest interest group
 
 Some voters are perfectly rational
 
+If some voters are credulous the interest group does not mind revealing the true state to rational voters if it can deceive the others at the same time. Thus, some (or even all) rational voters knowing the state perfectly does not change the conclusions of the model.
+
 Two parties can campaign - sig vs party can campaign
 
-cost of lying
+\subsection{When the interest group is one of the parties}
 
-prior of theta
+One way of modeling political parties is to assume that there only goal is to maximize their chance of winning. Although political campaigns often try to convince people to support particular policies (instead of just particular parties) a useful simplification is to separate roles in the political process: it is special interest groups that have policy preferences and thus campaign to change public opinion. Parties campaign to raise support for their own party but they do not spend costly resources on changing the public opinion, rather they try to choose their program to match the wishes of the public.
 
-interpretation
+In real life however, such a separation might be far from reality. Interest groups are often connected to political parties, which leads to a situation when parties face a tradeoff between being popular and following their own policy preferences. It is also possible, that members of the party prefer certain policies due to ideological conviction (rather then economic interest). If the party's policy preferences are motivated by economic interest the party will only care about the policy that is actually implemented, that if the party loses the election it does not prefer one policy position over the other. However, if the party's policy choice is motivated by ideology then it might want to make the announced policy similar to its conviction irrespective of the outcome.
 
-\section{Welfare and policy implications}
+I will now concentrate on the case when the policy preference of one of the parties is motivated by ideology. I will also assume that only one of the parties is ideological and furthermore that only this party is able to have a campaign before the election. The other party is non-ideological and cannot make a campaign. Motivating examples for such a setup can be semi-democratic countries, where the incumbent party has enough resources to shift public opinion with campaigns according to the preferences of the party leadership but opposition parties are strongly resource constrained and only want to maximise their vote share.
 
-Assessing the welfare implications of credulity requires a comparison of the model of this paper with the baseline of the CS model. It is important to note that voters have preferences not only over pliable policies which are the the main concern here but also over fixed policies. On average however utility differences due to these random preference shocks do not have an impact on the welfare of the electorate thus I shall concentrate on the effects of the pliable policy positions on welfare on the average voter (beside considering the welfare of the interest group as well). As I have noted before the CS model has multiple equilibria which requires us to either consider all the possible equilibria as benchmarks separately or to choose a criterion which makes some equilibria more plausible then others. I shall pursue the latter route and analyze the most informative equilibrium of the CS game and then contrast it with the equilibrium with credulity.
-
-The realised utility that the players obtains of course is a function of $\theta$ however we can consider the ex ante expected utility of the players by taking the expectation of the ex post utility according to the distribution of $\theta$. In the baseline case, the utility of the average voter for a given value of $\theta$ is given by
+The utility function of party A is given by a weighted average of its vote share and its negative distance from its ideal policy.
 
 \begin{equation}
-\mathrm{E}(U(\theta) \vert m) = \mathrm{E}\bigg(\theta - \frac{\theta_{i-1}+\theta_i}{2}\bigg)^2
+U_A = \beta s_A - (1-\beta) (p - \pi_A)^2
 \end{equation}
 
-Given that the distribution of $\theta$ is uniform we 
+where $\beta$ measures the importance of ideological conviction relative to the importance of winning the election. Rewriting this using the expression for the vote share yields
 
-Conclusion
+\begin{equation}
+U_A = -\beta (\frac{1}{2}-b+f(u(p_A)-u(p_B)))^2 - (1-\beta) (p_A - \pi_A)^2
+\end{equation}
 
-References:
+Substituting $u(p_A)=-(p-\pi)^2$ and maximizing with respect to $p_A$ yields for $p_A$
 
-Grossman, Helpman - Special interest politics, The MIT Press
+\begin{equation}
+p_A = \frac{\beta f \pi + (1-\beta)\pi_A}{1+\beta(f-1)}
+\end{equation}
 
-Kartik, Ottaviani, Squitani - Credulity, lies and costly talk, Journal of Economic Theory
+Thus, the policy chosen by the party is a weighted average of its preferred policy and the most popular policy. If the party with policy preferences is unable to influence the views of voters then it will  have a lower chance of winning the election then if it had no policy preferences. However, if the party can have an impact on policies and if some voters are credulous then it can take the average expected optimal policy to be equal to its own preferred policy.
+
+\subsection{Allowing for a more general relationship between the state and the interest group's ideal policy}
+
+In the main model, I have assumed that the bias of the interest group is a constant that is independent of the state. In principle this does not have to be the case i.e. the bias might be dependent of the state. To explore the implications of this possibility through a simple example, I will here assume that the relationship between the state (which is also the socially optimal policy) and the interest group's bliss point is a linear function $\rho \theta + \delta$. $\rho$ measures the dependence between the state and interest group's goal. This leads to the following problem for the interest group
+
+\begin{equation}
+u_S = -(\alpha m + (1-\alpha)\mu^{-1}(m) - (\rho \theta + \delta))^2
+\end{equation}
+
+Similarly to the case with $\rho = 1$ we can find the solution which is
+
+\begin{equation}
+m = \mu(\theta) = \frac{\delta + (\alpha+\rho-1)\theta}{\alpha}
+\end{equation}
+ 
+\section{Conclusion}
+
+In this paper, I have explored the role of voter credulity in political campaigning. More specifically, my goal was to understand how a special interest group can exploit the credulity of some voters, in order to further its own objectives. A reasonable conjecture - which is substantiated by everyday experience - is that political campaigns often  try to mislead credulous voters. However, it is not clear what impact credulity has on the realized policy outcome. If only a minority of voters can be deceived by political rhetoric, will interest groups be forced to keep their campaigns truthful? The answer that I have provided here suggests that, in some cases, the impact of credulity can be significant even if it only impacts a small fraction of voters. By waging a campaign that is more biased then the interest group actually is,credulous voters can become extremists whose receptivity to any change in a given policy increases. Due to this increased receptivity to changes in policy platforms, political parties cannot afford to ignore the radicalized credulous voters. This leads to the result, that if the general receptiveness of voters to the particular policy issue is small enough - i.e. if their fixed policy preferences  have a high enough importance - then the interest group can perfectly control which policy will be implemented.
+
+Of course, the real world is not a perfect manifestation of the model presented here. Perhaps the most significant difference between this model and real political manipulation is that interest groups often use lobbying or party endorsements as a means to achieve their ends. For example, it is often politicians who make arguments for protectionist trade policy even if they have no direct economic interest in them. Including all the channels through which special interests influence politics is an impossible task. Grossman and Helpman have provided several models which all analyze special interest politics from different directions. In any one model, only one channel of influence is explored, others are suppressed in order to allow the proper understanding of each of these factors while keeping the simplicity of models. GH operate in the world of perfect rationality - and in many settings this is a reasonable assumption. When lobby groups approach politicians or decision makers both parties are sophisticated professionals who have large incentives to behave optimally and thus they can be assumed to behave in a manner which is well approximated by perfect rationality. However, when a special interest group communicates with voters there is a fundamental asymmetry between their knowledge and incentives. Thus the effects or credulity are worthy of exploration.
+
+My results also suggests that credulity does not necessarily harm voters, in fact it can improve welfare. In lack of democratic countries where all voters are perfectly rational, this prediction is hard to test. However, the intuition is clear: Conflicts of interest create mistrust between rational agents. If the bias of an advisor is not to large it might be better to delegate the power to make a decision then to pay the costs of information loss in communication.
+
+In the title I have asked: 'Why do politicians lie?' A simple answer could be: 'Politicians lie because some people believe them'. Models of political decision making that assume rational voters cannot explain lying in politics. This model indeed shows that even a few credulous voters can be enough to make lying worthwhile.
+
+
+\bibliographystyle{unsrt}
+\bibliography{biblio}
 
 \end{document}
